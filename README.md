@@ -19,7 +19,7 @@ A DSL that allows a user to create their own choose-your-own-adventure game. Cre
 * BGM and sound effects: shape the atmosphere with unique background music and sound effects for every screen
 
 ## Code Example
-'''
+```
 GAME:
 	title: <string>
 	description: <string>
@@ -73,4 +73,4 @@ END SCENES:
 		picture:
 		file: <file name>
 			position:<string [top|bottom|left|right|center]>
-'''
+```
