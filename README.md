@@ -25,7 +25,7 @@ GAME:
 	description: <string>
 	lives: <non-negative integer>
 	start_screen: <start scene name>
-	stats:									(optional)
+	stats:	(optional)
 		<stat name>: <int | string>
 START SCENE:
 	<start scene name>:
@@ -34,10 +34,10 @@ START SCENE:
 		choice:
 			text: “<string>”
 			next scene: <scene name>
-		timer: <integer (seconds)>			(optional)
-		bgm: <file name>					(optional)
-		sound effect: <file name>			(optional)
-		picture:							(optional)
+		timer: <integer (seconds)>	(optional)
+		bgm: <file name>	(optional)
+		sound effect: <file name>	(optional)
+		picture:	(optional)
 			file: <file name>
 			position:<string [top|bottom|left|right|center]>
 STORY SCENES:
@@ -47,30 +47,30 @@ STORY SCENES:
 		choice:
 			text: “<string>”
 			next scene: <scene name>
-			conditional: <stat name> <[==, >=, <=, >, <] for int, [==] for string> <value>		(optional)
-			stat: <stat name> <[+,-,*,/,=] for int, [=] for string> <value>						(optional)
-		timer: <integer (seconds)>			(optional)
-		bgm: <file name>					(optional)
-		sound effect: <file name>			(optional)
-		picture:							(optional)
+			conditional: <stat name> <[==, >=, <=, >, <] for int, [==] for string> <value>	(optional)
+			stat: <stat name> <[+,-,*,/,=] for int, [=] for string> <value>	(optional)
+		timer: <integer (seconds)>	(optional)
+		bgm: <file name>	(optional)
+		sound effect: <file name>	(optional)
+		picture:	(optional)
 			file: <file name>
 			position:<string [top|bottom|left|right|center]>
 DEATH SCENES:
 	<death scene name>:
 		text:
 			*“<string>”
-		bgm: <file name>					(optional)
-		sound effect: <file name>			(optional)
-		picture:							(optional)
+		bgm: <file name>	(optional)
+		sound effect: <file name>	(optional)
+		picture:	(optional)
 			file: <file name>
 			position:<string [top|bottom|left|right|center]>
 END SCENES:
 <end scene name>:
 		text:
 			*“<string>”
-		bgm: <file name>					(optional)
-		sound effect: <file name>			(optional)
-		picture:							(optional)
+		bgm: <file name>	(optional)
+		sound effect: <file name>	(optional)
+		picture:	(optional)
 			file: <file name>
 			position:<string [top|bottom|left|right|center]>
 ```
