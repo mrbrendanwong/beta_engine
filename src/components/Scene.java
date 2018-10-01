@@ -1,7 +1,7 @@
 package components;
 
-import lib.node;
+import lib.Node;
 
-public abstract class scene extends node {
+public abstract class Scene extends Node {
 
 }

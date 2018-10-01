@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.List;
 
-public class main {
+public class Main {
     List<String> reserved = Arrays.asList(
             "GAME",
             "SCENE",

@@ -1,4 +1,4 @@
 package lib;
 
-public class tokenizer {
+public class Tokenizer {
 }
