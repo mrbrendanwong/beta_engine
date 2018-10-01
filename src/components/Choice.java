@@ -1,8 +1,8 @@
 package components;
 
-import lib.node;
+import lib.Node;
 
-public class choice extends node {
+public class Choice extends Node {
     public String text;
     public String next;
     public Boolean conditional;
