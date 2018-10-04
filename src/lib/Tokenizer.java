@@ -54,7 +54,10 @@ public class Tokenizer {
         x.removeAll(Arrays.asList("", null));
         System.out.println(x);
 
-        // Put into tokens; trimming will be handled in parsing
+        // Trim all elements
+        x.replaceAll(String::trim);
+
+        // Put into tokens
         tokens = new String[x.size()];
         tokens = x.toArray(tokens);
         System.out.println(Arrays.asList(tokens));
@@ -67,7 +70,7 @@ public class Tokenizer {
         }
         else
             token="NO_MORE_TOKENS";
-        return token.trim();
+        return token;
     }
 
     public String getNext(){
@@ -78,7 +81,7 @@ public class Tokenizer {
         }
         else
             token="NULLTOKEN";
-        return token.trim();
+        return token;
     }
 
 
