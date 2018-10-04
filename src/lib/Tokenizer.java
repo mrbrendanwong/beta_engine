@@ -60,14 +60,14 @@ public class Tokenizer {
         System.out.println(Arrays.asList(tokens));
     }
 
-    private String checkNext(){
+    public String checkNext(){
         String token="";
         if (currentToken<tokens.length){
             token = tokens[currentToken];
         }
         else
             token="NO_MORE_TOKENS";
-        return token;
+        return token.trim();
     }
 
     public String getNext(){
@@ -78,7 +78,7 @@ public class Tokenizer {
         }
         else
             token="NULLTOKEN";
-        return token;
+        return token.trim();
     }
 
 
