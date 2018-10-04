@@ -47,7 +47,7 @@ public class Tokenizer {
 
         tokenizedProgram = tokenizedProgram.replaceAll("__","_");
         System.out.println(tokenizedProgram);
-        String [] temparray = tokenizedProgram.split("[:_\n]");
+        String [] temparray = tokenizedProgram.split("[:_\n\r]");
 
         // Remove null elements
         List<String> x = new ArrayList<>(Arrays.asList(temparray));
