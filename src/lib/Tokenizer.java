@@ -42,6 +42,7 @@ public class Tokenizer {
 
         // For all literals found in the string, except for those surrounded by double quotes, surround with _
         for (String s : literals){
+            // Regex taken from: https://stackoverflow.com/questions/22755023/regex-to-replace-all-comma-except-enclosed-in-double-quotes-java
             tokenizedProgram = tokenizedProgram.replaceAll(s + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)","_"+s+"_");
             out.println(tokenizedProgram);
         }
