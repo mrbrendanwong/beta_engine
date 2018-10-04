@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.lang.System.out;
-
 public class Tokenizer {
 
     private static String program;
@@ -28,7 +26,7 @@ public class Tokenizer {
         try {
             program = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            out.println("Didn't find file");
+            System.out.println("Didn't find file");
             System.exit(0);
         }
         tokenize();
@@ -38,17 +36,17 @@ public class Tokenizer {
     private void tokenize() {
         String tokenizedProgram = program;
         tokenizedProgram = tokenizedProgram.replace("\t","");
-        out.println(program);
+        System.out.println(program);
 
         // For all literals found in the string, except for those surrounded by double quotes, surround with _
         for (String s : literals){
             // Regex taken from: https://stackoverflow.com/questions/22755023/regex-to-replace-all-comma-except-enclosed-in-double-quotes-java
             tokenizedProgram = tokenizedProgram.replaceAll(s + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)","_"+s+"_");
-            out.println(tokenizedProgram);
+            System.out.println(tokenizedProgram);
         }
 
         tokenizedProgram = tokenizedProgram.replaceAll("__","_");
-        out.println(tokenizedProgram);
+        System.out.println(tokenizedProgram);
         String [] temparray = tokenizedProgram.split("[:_\n]");
 
         // Remove null elements
@@ -59,7 +57,7 @@ public class Tokenizer {
         // Put into tokens; trimming will be handled in parsing
         tokens = new String[x.size()];
         tokens = x.toArray(tokens);
-        out.println(Arrays.asList(tokens));
+        System.out.println(Arrays.asList(tokens));
     }
 
     private String checkNext(){
@@ -86,9 +84,9 @@ public class Tokenizer {
 
     public boolean checkToken(String regexp){
         String s = checkNext();
-        out.println("comparing: "+s+"  to  "+regexp);
+        System.out.println("comparing: "+s+"  to  "+regexp);
         if (!s.matches(regexp)) {
-            out.println("checktoken " + s + " failed");
+            System.out.println("checktoken " + s + " failed");
         }
         return (s.matches(regexp));
     }
@@ -97,7 +95,7 @@ public class Tokenizer {
     public String getAndCheckNext(String regexp){
         String s = getNext();
         if (!s.matches(regexp)) System.exit(0);
-        out.println("matched: "+s+"  to  "+regexp);
+        System.out.println("matched: "+s+"  to  "+regexp);
         return s;
     }
 
