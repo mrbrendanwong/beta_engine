@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,34 +24,39 @@ public class Tokenizer {
     private Tokenizer(String filename, List<String> literalsList){
         literals = literalsList;
         try {
-            // Convert file to one long string
             program = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            // Could not find file in system
             System.out.println("Didn't find file");
             System.exit(0);
         }
-        // Tokenize the string we just converted from file
         tokenize();
     }
 
     // Converts the program string to an array of tokens
     private void tokenize() {
         String tokenizedProgram = program;
-        tokenizedProgram = tokenizedProgram.replace("\n","");
+        tokenizedProgram = tokenizedProgram.replace("\t","");
         System.out.println(program);
 
         // For all literals found in the string, except for those surrounded by double quotes, surround with _
         for (String s : literals){
-            tokenizedProgram = tokenizedProgram.replaceAll("(?<!\")" + s + "(?!\")","_"+s+"_");
+            // Regex taken from: https://stackoverflow.com/questions/22755023/regex-to-replace-all-comma-except-enclosed-in-double-quotes-java
+            tokenizedProgram = tokenizedProgram.replaceAll(s + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)","_"+s+"_");
             System.out.println(tokenizedProgram);
         }
 
         tokenizedProgram = tokenizedProgram.replaceAll("__","_");
         System.out.println(tokenizedProgram);
-        String [] temparray=tokenizedProgram.split("_");
-        tokens = new String[temparray.length-1];
-        System.arraycopy(temparray,1,tokens,0,temparray.length-1);
+        String [] temparray = tokenizedProgram.split("[:_\n\r]");
+
+        // Remove null elements
+        List<String> x = new ArrayList<>(Arrays.asList(temparray));
+        x.removeAll(Arrays.asList("", null));
+        System.out.println(x);
+
+        // Put into tokens; trimming will be handled in parsing
+        tokens = new String[x.size()];
+        tokens = x.toArray(tokens);
         System.out.println(Arrays.asList(tokens));
     }
 
