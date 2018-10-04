@@ -1,10 +1,16 @@
 package ui;
 
+import components.Game;
+import lib.Node;
+import lib.Tokenizer;
+
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
-    List<String> reserved = Arrays.asList(
+    public static List<String> literals = Arrays.asList(
             "GAME",
             "SCENE",
             "START SCENE",
@@ -22,11 +28,19 @@ public class Main {
             "sound effect",
             "picture",
             "file",
+            "conditional",
+            "stats",
             "position",
             "DEATH SCENE",
             "END SCENE"
     );
 
-    public static void main() {
+    public static Map<String, Node> gameParts = new HashMap<>();
+
+    public static void main(String[] args) {
+        Tokenizer.makeTokenizer("input.txt", literals);
+        Game game = new Game();
+        game.parse();
+        game.evaluate();
     }
 }

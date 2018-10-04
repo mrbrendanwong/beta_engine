@@ -1,0 +1,154 @@
+GAME:
+	screen_size: 1280, 720
+	title: Girl Dater Simulator
+	description: A sim for when you can't get a girl in real life so 2D will have to do
+	lives: 0
+	stats: 
+		amy: 1
+		jessica: 2
+	
+	START SCENE:
+		start:
+			picture:
+				file: title.png
+				position: center
+			bgm: title_music.mp3
+
+	STORY SCENES:
+		scene 1:
+			text: Welcome to St. Desperate Academy!
+			text: Here, you're gonna try and get a girl friend because no one will date you irl
+			choice:
+				text: Enter School
+				next scene: scene 2
+			bgm: school_music.mp4
+			picture:
+				file: school.jpeg
+				position: middle
+
+		scene 2:
+			text: ???: Hey! I didn't know you were going to school here too!
+			text: It was your childhood friend, Amy. You've been very close to her growing up. She looks prettier for some reason
+			text: Amy: See you in class!
+			text: Amy dashes off
+			choice: 
+				text: Go to class
+				next scene: scene class 1
+			choice:
+				text: Go to school roof:
+				next scene: scene roof 1
+			bgm: school_music.mp4
+			picture: 
+				file: amy.png
+				position: middle
+			picture:
+				file: hallway.jpeg
+				position: middle
+		
+		scene roof 1:
+			text: You decided to skip class and go to the roof
+			text: On the roof, you see a fair maiden
+			text: ???: Who are you?
+			text: Her name is Jessica, the well known pretty-faced trouble maker of the school
+			text: Jessica: are you skipping class too?
+			choice:
+				text: Say yes
+				next scene: scene roof 2
+				stats: 
+					jessica + 1
+			choice:
+				text: Say no
+				next scene: death jessica
+			choice:
+				text: Say you were drawn to her by destiny
+				next scene: death jessica
+			choice:
+				text: Make a run for it
+				next scene: class 1
+			bgm: roof_music.mp4
+			picture: 
+				file: jessica.png
+				position: middle
+			picture: 
+				file: roof.jpeg
+				position: middle
+		
+		scene roof 2:
+			text: Jessica: Is that so? I guess we're both trouble makers. tehee~
+			text: Jessica: Do you wanna go somewhere instead of staying at school?
+			choice:
+				text: Say yes
+				stats: jessica + 1
+				next scene: roof 3
+			choice:
+				text: Say no
+				stats: 
+					jessica - 1
+				next scene: roof 3
+			choice:
+				text: Say you'll take her home ;)
+				next scene: death jessica
+			choice:
+				text: Dab on her
+				next scene: death jessica
+			bgm: roof_music.mp4
+			sound effect: kyaa.mp4
+			picture: 
+				file: smiling_jessica.png
+				position: middle
+			picture: 
+				file: roof.jpeg
+				position: middle
+
+		scene roof 3:
+			text: Jessica: See you then!
+			text: Jessica runs off
+			choice:
+				text: Text Jessica the date plans
+				next scene: end jessica
+				conditional: jessica > 1
+			choice: 
+				text: Go home
+				next scene: death friendzone
+			picture: 
+				file: roof.jpeg
+				position: middle
+		
+		scene class 1: ...
+		scene class 2: ...
+		scene class 3: ...
+	
+	DEATH SCENES:
+		death jessica:
+			text: Jessica hates you!
+			bgm: game_over.mp3
+			sound effect: aww.mp3
+			picture: 
+				file: angry_jessica.png
+				position: center
+		death amy:
+			text: Amy wants nothing to do with you!
+			bgm: game_over.mp3
+			sound effect: aww.mp3
+			picture: 
+				file: angry_jessica.png
+				position: center
+		death friendzone:
+			text: Don't rush love. You'll find someone someday
+			bgm: just_a_friend.mp3
+
+	END SCENES:
+		end jessica:
+			text: jessica wants to go on a date with you!
+			bgm: congratulations.mp3
+			sound effect: fireworks.mp3
+			picture:
+				file: love_jessica.png
+				position: center
+		end amy:
+			text: Amy wants to introduce you to her parents!
+			bgm: congratulations.mp3
+			sound effect: fireworks.mp3
+			picture:
+				file: love_amy.png
+				position: center

@@ -1,0 +1,104 @@
+game:
+  screen_size: 1920, 1080
+  title: Hello Game
+  lives: 1
+  stats: gender age
+  start: start1
+  description: some game description
+
+start_scenes:
+  start1:
+    text: Welcome to Hello Game
+    choice:
+      text: Start Game
+      next: gender_sceen
+    bgm: start.wmv
+    picture:
+      file: splash.png
+      position: middle
+
+story_scenes:
+  gender_screen:
+    text: are you a male or female?
+    choice:
+      text: male
+      next: age_scene
+      stat: gender | male
+    choice:
+      text: female
+      next: age_scene
+      stat: gender | female
+    choice:
+      text: other
+      next: filler_scene
+      stat: gender | other
+    bgm: bgm.mp3
+    picture:
+      file: image_1.png
+      position: middle
+  age_scene:
+    text: how old r u
+    choice:
+      text: Under 17
+      stat: age | youngAf
+      next: filler_scene
+    choice:
+      text: 18+
+      stat: age | 18
+      next: filler_scene
+    bgm: bgm.mp3
+    picture:
+      file: age.jpg
+      position: middle
+  filler_scene:
+    exposition: hi there
+    exposition: what you doing
+    exposition: cool.
+    text: proceed
+    choice:
+      text: Don't play this game if you can't handle it, kid
+      conditional: age | youngAf
+      next: end_young
+    choice:
+      text: You're in for a treat
+      next: duel
+      conditional: age | 18
+  duel:
+    text: Are you ready to duel?
+    choice:
+      text: yes
+      next: trap_card
+    choice:
+      text: no
+      next: end_generic
+    picture:
+      yugioh_deck.png
+      position: middle
+    timer: 30
+
+death_scenes:
+  trap_card:
+    exposition: You just activated..
+    exposition: My trap card
+    picture:
+      file: kaibas_defeat.png
+      position: left
+    picture:
+      file: yugi_trap_card.png
+      position: right
+    bgm: yugioh_theme.mp3
+    sound_effect: its_time_to_duel.mp3
+
+end_scenes:
+  end_generic:
+    text: Game over
+    sound_effect: fail.mp3
+    picture:
+      file: end.png
+      position: middle
+  end_young:
+    text: Sorry fam, you're too young to play this game
+    bgm: spongebob_laugh.mp3
+    picture:
+      file: diaper.png
+      position: middle
