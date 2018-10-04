@@ -8,8 +8,11 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static java.lang.System.out;
 
 public class Tokenizer {
 
@@ -23,35 +26,39 @@ public class Tokenizer {
     private Tokenizer(String filename, List<String> literalsList){
         literals = literalsList;
         try {
-            // Convert file to one long string
             program = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            // Could not find file in system
-            System.out.println("Didn't find file");
+            out.println("Didn't find file");
             System.exit(0);
         }
-        // Tokenize the string we just converted from file
         tokenize();
     }
 
     // Converts the program string to an array of tokens
     private void tokenize() {
         String tokenizedProgram = program;
-        tokenizedProgram = tokenizedProgram.replace("\n","");
-        System.out.println(program);
+        tokenizedProgram = tokenizedProgram.replace("\t","");
+        out.println(program);
 
         // For all literals found in the string, except for those surrounded by double quotes, surround with _
         for (String s : literals){
-            tokenizedProgram = tokenizedProgram.replaceAll("(?<!\")" + s + "(?!\")","_"+s+"_");
-            System.out.println(tokenizedProgram);
+            tokenizedProgram = tokenizedProgram.replaceAll(s + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)","_"+s+"_");
+            out.println(tokenizedProgram);
         }
 
         tokenizedProgram = tokenizedProgram.replaceAll("__","_");
-        System.out.println(tokenizedProgram);
-        String [] temparray=tokenizedProgram.split("_");
+        out.println(tokenizedProgram);
+        String [] temparray = tokenizedProgram.split("[:_\n]");
+
+        // Remove null elements
+        List<String> x = new ArrayList<>(Arrays.asList(temparray));
+        x.removeAll(Arrays.asList("", null));
+        System.out.println(x);
+
+        // Put into tokens; trimming will be handled in parsing
         tokens = new String[temparray.length-1];
-        System.arraycopy(temparray,1,tokens,0,temparray.length-1);
-        System.out.println(Arrays.asList(tokens));
+        tokens = x.toArray(tokens);
+        out.println(Arrays.asList(tokens));
     }
 
     private String checkNext(){
@@ -78,9 +85,9 @@ public class Tokenizer {
 
     public boolean checkToken(String regexp){
         String s = checkNext();
-        System.out.println("comparing: "+s+"  to  "+regexp);
+        out.println("comparing: "+s+"  to  "+regexp);
         if (!s.matches(regexp)) {
-            System.out.println("checktoken " + s + " failed");
+            out.println("checktoken " + s + " failed");
         }
         return (s.matches(regexp));
     }
@@ -89,7 +96,7 @@ public class Tokenizer {
     public String getAndCheckNext(String regexp){
         String s = getNext();
         if (!s.matches(regexp)) System.exit(0);
-        System.out.println("matched: "+s+"  to  "+regexp);
+        out.println("matched: "+s+"  to  "+regexp);
         return s;
     }
 

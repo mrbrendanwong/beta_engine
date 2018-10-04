@@ -12,7 +12,6 @@ import java.util.Map;
 public class Main {
     public static List<String> literals = Arrays.asList(
             "GAME",
-            "SCENE",
             "START SCENE",
             "title",
             "description",
@@ -38,7 +37,7 @@ public class Main {
     public static Map<String, Node> gameParts = new HashMap<>();
 
     public static void main(String[] args) {
-        Tokenizer.makeTokenizer("input.txt", literals);
+        Tokenizer.makeTokenizer("generic_sample.txt", literals);
         Game game = new Game();
         game.parse();
         game.evaluate();

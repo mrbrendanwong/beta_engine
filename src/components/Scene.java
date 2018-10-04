@@ -18,7 +18,12 @@ public class Scene extends Node {
 
     @Override
     public void parse() {
-
+        // Check for scene name
+        // Check for texts
+        // Check for choices
+        // Check for timer
+        // Check for bgm
+        // Check for picture file; if picture exists, check for position
     }
 
     @Override
