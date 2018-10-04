@@ -1,0 +1,57 @@
+GAME:
+	Screen size: 1920,1080
+	Title: "Waifu Dating Simulator"
+	Lives: 0
+	Stats: 
+		waifu_friendship: 0
+	Description: "Waifu is super desperate. Will you date her?"
+	STORY SCENES:
+		waifu_date_ask:
+			Text:"It's not like I like you or anything..."
+			Text:"But like, do you want to hangout this weekend? uwu"
+			Choice:
+				Text: "Yeah! Netflix and chill?"
+				Next scene: netflix_1
+				Conditional: waifu_friendship > 5
+			Choice:
+				Text:"I'm busy this weekend, sorry."
+				Next scene: car_death_1
+			Timer: 10
+			BGM: waifu_theme.mp4
+			Picture:
+				File: bird_school.jpg
+				Position:middle
+			Picture:
+				File: waifu.jpg
+				Position: middle
+	START SCENE:
+		school_day_1:
+			Text: "You're walking to class, when suddenly you get bumped from behind."
+			Text: "All your books fall on the floor. When you look up you see that girl you have a crush on."
+			Text: "You remember her name is Waifu."
+			Choice:
+				Text:"You pick up your books."
+				Next scene: waifu_date_ask
+			BGM: school_theme.mp4
+			Sound effect: crash.jpg
+			Picture:
+				File: bird_school.jpg
+				Position: middle
+			Picture:
+				File: waifu.jpg
+				Position: middle
+	END SCENES:
+			Text: "You did the Netflix and chill. owo"
+			BGM: sexy_music.mp4
+			Picture:
+				File: sexy_pic.jpg
+				Position: middle
+	DEATH SCENES:
+		car_death_1
+			Text: "You were hit by a car.."
+			Text: "Before you black out, you see Waifu at the wheel, crying."
+			BGM: sad_theme.mp4
+			Sound effect: car_crash.mp4
+			Picture:
+				File: car_crash.jpg
+				Position: middle

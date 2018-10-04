@@ -1,0 +1,137 @@
+GAME:
+    screen_size: 800, 600
+    title: "Possible Quiz"
+    description: "It's completely possible to finish this game without a game over."
+    lives: 3
+    stats:
+        style_points: 0
+        regular_points: 0
+        nerd_points: 0
+        gryffindor_points: 0
+    start_scene: start
+
+    START_SCENE:
+        start:
+            picture:
+                file: opening.jpg
+                position: center
+            bgm: rocky_theme.mp3
+            choice:
+                text: "Start yo"
+                next_scene: question1
+
+    STORY_SCENES:
+        question1:
+            text: "Question 1: Do you like cake?"
+            choice:
+                text: "Heck yea my dude"
+                stats:
+                    style_points + 1
+                next_scene: question2
+            choice:
+                text: "Yes"
+                stats:
+                    regular_points + 1
+                next_scene: question2
+            choice:
+                text: "No"
+                stats:
+                    regular_points + 1
+                next_scene: question2
+            choice:
+                text: "Accio cake"
+                stats:
+                    gryffindor_points + 1
+                next_scene: question2
+            picture:
+                file: generic_question_box.jpg
+                position: center
+            picture:
+                file: cake.jpg
+                position: center
+            sound_effect: explosion.mp3
+        question2:
+            text: "Question 2: What's 9 + 10?"
+            choice:
+                text: "21"
+                stats:
+                    style_points + 1
+                next_scene: question3
+            choice:
+                text: "Yes"
+                stats:
+                    regular_points + 1
+                next_scene: question3
+            choice:
+                text: "19 duh"
+                stats:
+                    nerd_points + 1
+                next_scene: question3
+            choice:
+                text: "Expelliarmus!"
+                stats:
+                    gryffindor_points + 1
+                next_scene: question3
+            picture:
+                file: generic_question_box.jpg
+                position: center
+            picture:
+                file: 9+10.jpg
+                position: center
+            sound_effect: explosion.mp3
+        question3:
+            text: "Question 3: QUICK! Click on the 2nd choice!"
+            choice:
+                text: "NOT THIS ONE"
+                stats:
+                    regular_points + 1
+                next_scene: death
+            choice:
+                text: "Yes"
+                stats:
+                    regular_points + 1
+                next_scene: end
+            choice:
+                text: "NAH"
+                stats:
+                    regular_points + 1
+                next_scene: death
+            choice:
+                text: "Avada Kadavra!"
+                stats:
+                    gryffindor_points + 1
+                conditional: gryffindor_points > 1
+                next_scene: end2
+            picture:
+                file: generic_question_box.jpg
+                position: center
+            picture:
+                file: bomb_lit.jpg
+                position: center
+            sound_effect: explosion.mp3
+            timer: 3
+
+    END_SCENES:
+        end:
+            text: "Wow amazing! You did it!"
+            picture:
+                file: owen_wilson_wow.jpg
+                position: center
+            picture:
+                file: graduation_hat.jpg
+                position: center
+            BGM: graduation_song.mp3
+        end2:
+            text: "You killed voldemort! Yay!"
+            picture:
+                file: voldemort_tombstone.jpg
+                position: center
+            BGM: harry_potter_theme.jpg
+
+    DEATH_SCENES:
+        death:
+            text: ":("
+            picture:
+                file: bomb_explosion.jpg
+                position: center
+            sound_effect: explosion.mp3
