@@ -1,10 +1,10 @@
 GAME:
-	title: test game
-	description: game description
+	title: "test game"
+	description: "game description"
 	lives: 0
 	stats:
 		test stat 1: 0
-		test stat 2: 1
+		test stat 2: "asdf"
 START SCENE:
 	test 1:
 		text:

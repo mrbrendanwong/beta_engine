@@ -24,7 +24,7 @@ GAME:
 	title: <string>
 	description: <string>
 	lives: <non-negative integer>
-	start_screen: <start scene name>
+	start_screen: <start scene name> (removed)
 	stats:	(optional)
 		<stat name>: <int | string>
 START SCENE:

@@ -4,6 +4,7 @@ import lib.Node;
 import ui.Main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Game extends Node {
@@ -11,7 +12,8 @@ public class Game extends Node {
     public String description;
     public int lives;
     public Scene startScene;
-    public List<Integer> stats = new ArrayList<>();
+    public static HashMap<String, Integer> numberStats = new HashMap<>();
+    public static HashMap<String, String> stringStats = new HashMap<>();
     public List<Node> storyScenes = new ArrayList<>();
     public List<Node> deathScenes = new ArrayList<>();
     public List<Node> endScenes = new ArrayList<>();
@@ -21,6 +23,8 @@ public class Game extends Node {
     public void parse() {
         tokenizer.getAndCheckNext("GAME");
         while (tokenizer.moreTokens()) {
+            String statKey;
+            String statValue;
             Scene scene;
             String currToken = tokenizer.getNext();
             switch (currToken) {
@@ -32,10 +36,23 @@ public class Game extends Node {
                     break;
                 case "lives":
                     lives = Integer.parseInt(tokenizer.getNext());
+                    if (lives < 0) {
+                        System.out.println("Lives can't be less than 0");
+                        System.exit(1);
+                    }
                     break;
                 case "stats":
-                    // figure out how to tokenize stats
-                    tokenizer.getNext();
+                    // adds next 2 tokens to stats if they aren't one of the literals
+                    while(!Main.literals.contains(tokenizer.checkNext())) {
+                        statKey = tokenizer.getNext();
+                        statValue = tokenizer.getNext();
+                        // tries parsing statValue as an int, and if it fails, then it places it in the stringStats
+                        try {
+                            numberStats.put(statKey, Integer.parseInt(statValue));
+                        } catch (NumberFormatException e) {
+                            stringStats.put(statKey, statValue);
+                        }
+                    }
                     break;
                 case "START SCENE":
                     startScene = new Scene();
@@ -61,11 +78,9 @@ public class Game extends Node {
                     }
                 default:
                     System.out.println("Invalid token: " + currToken);
-                    tokenizer.getNext();
-                    break;
+                    System.exit(1);
             }
         }
-        System.out.println(storyScenes);
     }
 
     @Override
