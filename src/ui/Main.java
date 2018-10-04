@@ -16,7 +16,6 @@ public class Main {
             "title",
             "description",
             "lives",
-            "start",
             "stats",
             "STORY SCENE",
             "text",
