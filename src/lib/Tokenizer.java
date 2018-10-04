@@ -57,7 +57,7 @@ public class Tokenizer {
         System.out.println(x);
 
         // Put into tokens; trimming will be handled in parsing
-        tokens = new String[temparray.length-1];
+        tokens = new String[x.size()];
         tokens = x.toArray(tokens);
         out.println(Arrays.asList(tokens));
     }
