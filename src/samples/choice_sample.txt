@@ -1,0 +1,23 @@
+GAME:
+	title: test game
+	lives: 0
+	stats:
+		test stat 1: 0
+		test stat 2: hello
+	description: game description
+	start: test 1
+START SCENE:
+	test 1:
+		text:
+			"this is scene text"
+		choice:
+			text: "choice 1"
+			conditional: "test stat 1 == 0"
+			next: lol 1 242
+		choice:
+			text: "choice 2"
+			conditional: "test stat 2 == hello"
+		choice:
+			text: "choice 3"
+			stat: "test stat 2 + 1"
+			next: lol 1 234
