@@ -13,14 +13,14 @@ public class Choice extends Node {
     @Override
     public void parse() {
         String currToken = tokenizer.checkNext();
-        while (!Main.literals.contains(currToken)) {
+        while (!tokenizer.checkToken("text|next scene|conditional|change stat")) {
             tokenizer.getNext(); // consume the property token
             switch (currToken) {
                 case "text":
                     // trim double quotes from start and end
                     text = trimQuotes(tokenizer.getNext());
                     break;
-                case "next":
+                case "next scene":
                     next = tokenizer.getNext();
                     break;
                 case "conditional":
