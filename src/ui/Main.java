@@ -20,7 +20,7 @@ public class Main {
             "STORY SCENE",
             "text",
             "choice",
-            "next",
+            "next scene",
             "timer",
             "bgm",
             "sound effect",
