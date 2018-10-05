@@ -17,6 +17,11 @@ public class Choice extends Node {
             tokenizer.getNext(); // consume the property token
             switch (currToken) {
                 case "text":
+                    if (text != null) {
+                        // Already got a text for choice
+                        // If see another text, then it's the scene's text
+                        return;
+                    }
                     // trim double quotes from start and end
                     text = trimQuotes(tokenizer.getNext());
                     break;
