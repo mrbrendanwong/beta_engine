@@ -48,7 +48,7 @@ STORY SCENES:
 			text: “<string>”
 			next scene: <scene name>
 			conditional: "<stat name> <[==, >=, <=, >, <] for int, [==] for string> <value>" (optional)
-			stat: "<stat name> <[+,-,*,/,=] for int, [=] for string> <value>" (optional)
+			change stat: "<stat name> <[+,-,*,/,=] for int, [=] for string> <value>" (optional)
 		timer: <integer (seconds)>	(optional)
 		bgm: <file name>	(optional)
 		sound effect: <file name>	(optional)
