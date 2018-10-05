@@ -18,16 +18,16 @@ public class Choice extends Node {
             switch (currToken) {
                 case "text":
                     // trim double quotes from start and end
-                    text = tokenizer.getNext().replaceAll("^\"|\"$", "");;
+                    text = trimQuotes(tokenizer.getNext());
                     break;
                 case "next":
                     next = tokenizer.getNext();
                     break;
                 case "conditional":
-                    conditional = evalConditional(tokenizer.getNext());
+                    conditional = evalConditional(trimQuotes(tokenizer.getNext()));
                     break;
-                case "stat":
-                    setStat(tokenizer.getNext());
+                case "change stat":
+                    setStat(trimQuotes(tokenizer.getNext()));
                     break;
                 default:
                     System.out.println("Invalid token for choice: " + currToken);
@@ -44,6 +44,10 @@ public class Choice extends Node {
         }
     }
 
+    private String trimQuotes(String s) {
+        return s.replaceAll("^\"|\"$", "");
+    }
+
     private String[] splitStat(String statInput) {
         String[] statString = statInput.split(" ");
         if (statString.length < 3) {
@@ -53,9 +57,8 @@ public class Choice extends Node {
         int len = statString.length;
         String statName = String.join(" ", Arrays.copyOfRange(statString, 0, len - 2));
         String op = statString[len - 2];
-        String right = statString[len - 1];
-        String[] result = {statName, op, right};
-        return result;
+        String right = statString[len - 1]; // value has no spaces
+        return new String[]{statName, op, right};
     }
 
     private boolean evalConditional(String statInput) {

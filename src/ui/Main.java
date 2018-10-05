@@ -27,7 +27,7 @@ public class Main {
             "picture",
             "file",
             "conditional",
-            "stat",
+            "change stat",
             "position",
             "DEATH SCENE",
             "END SCENE"

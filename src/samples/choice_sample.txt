@@ -19,5 +19,5 @@ START SCENE:
 			conditional: "test stat 2 == hello"
 		choice:
 			text: "choice 3"
-			stat: "test stat 2 + 1"
+			change stat: "test stat 2 + 1"
 			next: lol 1 234
