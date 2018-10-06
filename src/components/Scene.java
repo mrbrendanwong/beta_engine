@@ -1,6 +1,7 @@
 package components;
 
 import lib.Node;
+import ui.Main;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,20 +19,15 @@ public class Scene extends Node {
 
     @Override
     public void parse() {
-        // Check for scene name
         name = tokenizer.getNext();
-
-        // Check for texts
-        // Check for choices
-        // Check for timer
-        // Check for bgm
-        // Check for picture file; if picture exists, check for position
         while (true) {
             switch (tokenizer.checkNext()) {
                 case "text":
                     tokenizer.getAndCheckNext("text");
-                    texts.add(tokenizer.getNext());
-                    break;
+                    while (!Main.literals.contains(tokenizer.checkNext())) {
+                        texts.add(tokenizer.getNext());
+                        break;
+                    }
                 case "choice":
                     Choice c = new Choice();
                     c.parse();
@@ -59,7 +55,6 @@ public class Scene extends Node {
                 default:
                     return;
             }
-            System.out.println(tokenizer.getNext());
         }
     }
 
