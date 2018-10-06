@@ -26,8 +26,8 @@ public class Scene extends Node {
                     tokenizer.getAndCheckNext("text");
                     while (!Main.literals.contains(tokenizer.checkNext())) {
                         texts.add(tokenizer.getNext());
-                        break;
                     }
+                    break;
                 case "choice":
                     Choice c = new Choice();
                     c.parse();
