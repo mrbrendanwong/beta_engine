@@ -24,11 +24,12 @@ public class Scene extends Node {
             switch (tokenizer.checkNext()) {
                 case "text":
                     tokenizer.getAndCheckNext("text");
-                    while (!Main.literals.contains(tokenizer.checkNext())) {
+                    while (!Main.literals.contains(tokenizer.checkNext()) && !tokenizer.checkNext().equals("NO_MORE_TOKENS")) {
                         texts.add(tokenizer.getNext());
                     }
                     break;
                 case "choice":
+                    tokenizer.getAndCheckNext("choice");
                     Choice c = new Choice();
                     c.parse();
                     choices.add(c);
@@ -66,11 +67,6 @@ public class Scene extends Node {
                     return;
             }
         }
-    }
-
-    @Override
-    public void evaluate() {
-
     }
 
     // For testing

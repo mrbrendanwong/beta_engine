@@ -12,7 +12,7 @@ START SCENE:
 		choice:
 			text: "this is a start choice"
 			next scene: test 2
-STORY SCENE:
+STORY SCENES:
 	test 2:
 		text:
 			"this is scene text again"
@@ -24,11 +24,13 @@ STORY SCENE:
 			next scene: test death
 	test 3:
 		text: "this is scene text once again"
-		next scene: test end
-DEATH SCENE:
+		choice:
+			text: "this is a second choice"
+			next scene: test end
+DEATH SCENES:
 	test death:
 		text:
 			"this is a death"
-END SCENE:
+END SCENES:
 	test end:
 		text: "this is an end"

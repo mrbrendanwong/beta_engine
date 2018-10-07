@@ -13,7 +13,7 @@ public class Choice extends Node {
     @Override
     public void parse() {
         String currToken = tokenizer.checkNext();
-        while (!tokenizer.checkToken("text|next scene|conditional|change stat")) {
+        while (tokenizer.checkToken("text|next scene|conditional|change stat")) {
             tokenizer.getNext(); // consume the property token
             switch (currToken) {
                 case "text":
@@ -157,10 +157,5 @@ public class Choice extends Node {
                 System.out.println("Unsupported arithmetic operation: " + op);
                 System.exit(1);
         }
-    }
-
-    @Override
-    public void evaluate() {
-
     }
 }

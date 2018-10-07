@@ -17,7 +17,7 @@ public class Main {
             "description",
             "lives",
             "stats",
-            "STORY SCENE",
+            "STORY SCENES",
             "text",
             "choice",
             "next scene",
@@ -29,8 +29,8 @@ public class Main {
             "conditional",
             "change stat",
             "position",
-            "DEATH SCENE",
-            "END SCENE"
+            "DEATH SCENES",
+            "END SCENES"
     );
 
     public static Map<String, Node> gameParts = new HashMap<>();
@@ -39,6 +39,9 @@ public class Main {
         Tokenizer.makeTokenizer("generic_sample.txt", literals);
         Game game = new Game();
         game.parse();
-        game.evaluate();
+        System.out.println("(✿╹◡╹) ");
+        System.out.println(game.description);
+        System.out.println(game.lives);
+        System.out.println(game.title);
     }
 }
