@@ -21,56 +21,55 @@ A DSL that allows a user to create their own choose-your-own-adventure game. Cre
 ## Code Example
 ```
 GAME:
-	title: <string>
-	description: <string>
+	title: "<string>"
+	description: "<string>"
 	lives: <non-negative integer>
-	start_screen: <start scene name> (removed)
 	stats:	(optional)
 		<stat name>: <int | string>
 START SCENE:
 	<start scene name>:
 		text:
-			*”<string>”
+			*"<string>"
 		choice:
-			text: “<string>”
+			text: "<string>"
 			next scene: <scene name>
 		timer: <integer (seconds)>	(optional)
-		bgm: <file name>	(optional)
-		sound effect: <file name>	(optional)
+		bgm: "<file name>"	(optional)
+		sound effect: "<file name>"	(optional)
 		picture:	(optional)
-			file: <file name>
+			file: "<file name>"
 			position:<string [top|bottom|left|right|center]>
 STORY SCENES:
 	<story scene name>:
 		text:
-			*“<string>”
+			*"<string>"
 		choice:
-			text: “<string>”
+			text: "<string>"
 			next scene: <scene name>
 			conditional: "<stat name> <[==, >=, <=, >, <] for int, [==] for string> <value>" (optional)
 			change stat: "<stat name> <[+,-,*,/,=] for int, [=] for string> <value>" (optional)
 		timer: <integer (seconds)>	(optional)
-		bgm: <file name>	(optional)
-		sound effect: <file name>	(optional)
+		bgm: "<file name>"	(optional)
+		sound effect: "<file name>"	(optional)
 		picture:	(optional)
-			file: <file name>
-			position:<string [top|bottom|left|right|center]>
+			file: "<file name>"
+			position: <string [top|bottom|left|right|center]>
 DEATH SCENES:
 	<death scene name>:
 		text:
-			*“<string>”
-		bgm: <file name>	(optional)
-		sound effect: <file name>	(optional)
+			*"<string>"
+		bgm: "<file name>"	(optional)
+		sound effect: "<file name>"	(optional)
 		picture:	(optional)
-			file: <file name>
+			file: "<file name>"
 			position:<string [top|bottom|left|right|center]>
 END SCENES:
 <end scene name>:
 		text:
-			*“<string>”
-		bgm: <file name>	(optional)
-		sound effect: <file name>	(optional)
+			*"<string>"
+		bgm: "<file name>"	(optional)
+		sound effect: "<file name>"	(optional)
 		picture:	(optional)
-			file: <file name>
+			file: "<file name>"
 			position:<string [top|bottom|left|right|center]>
 ```

@@ -17,7 +17,7 @@ public class Main {
             "description",
             "lives",
             "stats",
-            "STORY SCENE",
+            "STORY SCENES",
             "text",
             "choice",
             "next scene",
@@ -29,16 +29,29 @@ public class Main {
             "conditional",
             "change stat",
             "position",
-            "DEATH SCENE",
-            "END SCENE"
+            "DEATH SCENES",
+            "END SCENES"
     );
 
     public static Map<String, Node> gameParts = new HashMap<>();
 
     public static void main(String[] args) {
-        Tokenizer.makeTokenizer("generic_sample.txt", literals);
+        Tokenizer.makeTokenizer("./src/samples/b_sample.txt", literals);
         Game game = new Game();
         game.parse();
-        game.evaluate();
+
+        // For Testing
+        System.out.println("(✿╹◡╹) COMPILED");
+        System.out.println("Game Title: " + game.title + "\n" +
+                "Game Description" + game.description + "\n" +
+                "Lives" + game.lives + "\n" +
+                "Numeric Stats" + game.numberStats + "\n" +
+                "String Stats" + game.stringStats + "\n" +
+                "Start Scene" + game.startScene + "\n" +
+                "Story Scenes" + game.storyScenes + "\n" +
+                "Death Scenes" + game.deathScenes + "\n" +
+                "End Scenes" + game.endScenes
+        );
+        System.out.println("(✿^◡^) GUCCI");
     }
 }

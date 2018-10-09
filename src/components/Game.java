@@ -59,32 +59,30 @@ public class Game extends Node {
                     startScene.parse();
                     break;
                 case "STORY SCENES":
-                    while(!Main.literals.contains(tokenizer.checkNext())) {
+                    while(!Main.literals.contains(tokenizer.checkNext()) && !tokenizer.checkNext().equals("NO_MORE_TOKENS")) {
                         scene = new Scene();
                         scene.parse();
                         storyScenes.add(scene);
                     }
+                    break;
                 case "DEATH SCENES":
-                    while(!Main.literals.contains(tokenizer.checkNext())) {
+                    while(!Main.literals.contains(tokenizer.checkNext()) && !tokenizer.checkNext().equals("NO_MORE_TOKENS")) {
                         scene = new Scene();
                         scene.parse();
                         deathScenes.add(scene);
                     }
+                    break;
                 case "END SCENES":
-                    while(!Main.literals.contains(tokenizer.checkNext())) {
+                    while(!Main.literals.contains(tokenizer.checkNext()) && !tokenizer.checkNext().equals("NO_MORE_TOKENS")) {
                         scene = new Scene();
                         scene.parse();
                         endScenes.add(scene);
                     }
+                    break;
                 default:
                     System.out.println("Invalid token: " + currToken);
                     System.exit(1);
             }
         }
-    }
-
-    @Override
-    public void evaluate() {
-
     }
 }
