@@ -36,12 +36,22 @@ public class Main {
     public static Map<String, Node> gameParts = new HashMap<>();
 
     public static void main(String[] args) {
-        Tokenizer.makeTokenizer("generic_sample.txt", literals);
+        Tokenizer.makeTokenizer("./src/samples/b_sample.txt", literals);
         Game game = new Game();
         game.parse();
-        System.out.println("(✿╹◡╹) ");
-        System.out.println(game.description);
-        System.out.println(game.lives);
-        System.out.println(game.title);
+
+        // For Testing
+        System.out.println("(✿╹◡╹) COMPILED");
+        System.out.println("Game Title: " + game.title + "\n" +
+                "Game Description" + game.description + "\n" +
+                "Lives" + game.lives + "\n" +
+                "Numeric Stats" + game.numberStats + "\n" +
+                "String Stats" + game.stringStats + "\n" +
+                "Start Scene" + game.startScene + "\n" +
+                "Story Scenes" + game.storyScenes + "\n" +
+                "Death Scenes" + game.deathScenes + "\n" +
+                "End Scenes" + game.endScenes
+        );
+        System.out.println("(✿^◡^) GUCCI");
     }
 }
