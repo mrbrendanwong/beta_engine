@@ -11,6 +11,7 @@ public class Game extends Node {
     public String title;
     public String description;
     public int lives;
+
     public Scene startScene;
     public static HashMap<String, Integer> numberStats = new HashMap<>();
     public static HashMap<String, String> stringStats = new HashMap<>();

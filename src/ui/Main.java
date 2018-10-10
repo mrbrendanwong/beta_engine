@@ -1,5 +1,6 @@
 package ui;
 
+import client.Client;
 import components.Game;
 import lib.Node;
 import lib.Tokenizer;
@@ -53,5 +54,9 @@ public class Main {
                 "End Scenes" + game.endScenes
         );
         System.out.println("(✿^◡^) GUCCI");
+
+        // Launch game window
+        Client client = new Client(game);
+        client.launchFrame();
     }
 }
