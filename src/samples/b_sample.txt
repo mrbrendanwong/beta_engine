@@ -7,6 +7,10 @@ GAME:
 		jessica: 0
 	START SCENE:
 		start:
+			choice:
+				text:
+					"Start Game"
+				next scene: scene 1
 			picture:
 				file: "title.png"
 				position: center
