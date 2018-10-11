@@ -62,10 +62,7 @@ public class Client implements ActionListener {
         currScene = game.startScene;
 
         // Add buttons and stuff
-        for (int i = 0; i < currScene.choices.size(); i++) {
-            buttons.get(i).setText(currScene.choices.get(i).text);
-            interactionPanel.add(buttons.get(i));
-        }
+        addButtonsToPanel();
     }
 
     // Temp
@@ -87,12 +84,16 @@ public class Client implements ActionListener {
 
     private void updateButtons() {
         interactionPanel.removeAll();
+        addButtonsToPanel();
+        interactionPanel.revalidate();
+        interactionPanel.repaint();
+    }
+
+    private void addButtonsToPanel() {
         for (int i = 0; i < currScene.choices.size(); i++) {
             buttons.get(i).setText(currScene.choices.get(i).text);
             interactionPanel.add(buttons.get(i));
         }
-        interactionPanel.revalidate();
-        interactionPanel.repaint();
     }
 
     @Override
