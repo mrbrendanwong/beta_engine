@@ -7,6 +7,8 @@ GAME:
 		jessica: 0
 	START SCENE:
 		start:
+			text:
+				"Click the button to start"
 			choice:
 				text:
 					"Start Game"

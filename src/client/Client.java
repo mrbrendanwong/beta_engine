@@ -15,12 +15,16 @@ public class Client implements ActionListener {
     private int NUM_BUTTONS = 4;
 
     private Game game;
+    private Scene currScene;
+    private int currTextPointer;
+
     private JFrame frame;
     private JPanel statusPanel;
     private JPanel mainPanel;
     private JPanel interactionPanel;
-    private Scene currScene;
-    private List<JButton> buttons = new ArrayList<>();
+    private JPanel textPanel;
+    private JButton nextButton;
+    private List<JButton> choiceButtons = new ArrayList<>();
 
     public Client(Game gameObj) {
         game = gameObj;
@@ -50,18 +54,24 @@ public class Client implements ActionListener {
         frame.add(mainPanel);
         frame.add(interactionPanel);
 
-        // Create buttons
+        // Create text and next button
+        textPanel = new JPanel();
+        nextButton = new JButton("Next");
+        nextButton.setActionCommand(String.format("%d", -1));
+        nextButton.addActionListener(this);
+
+        // Create choiceButtons
         for (int i = 0; i < NUM_BUTTONS; i++) {
-            buttons.add(new JButton());
-            buttons.get(i).setActionCommand(String.format("%d", i));
-            buttons.get(i).addActionListener(this);
+            choiceButtons.add(new JButton());
+            choiceButtons.get(i).setActionCommand(String.format("%d", i));
+            choiceButtons.get(i).addActionListener(this);
         }
 
         // Set start scene to the current scene
         currScene = game.startScene;
 
-        // Add buttons and stuff
-        addButtonsToPanel();
+        // Add text and choiceButtons and stuff
+        updateFrame(-1);
     }
 
     // Temp
@@ -70,45 +80,65 @@ public class Client implements ActionListener {
     }
 
     // Updates current elements of game on the frame
-    private void updateFrame(int buttonNum) {
+    private void updateFrame(int choiceNum) {
         // Get next scene
         Scene scene;
-        String nextScene = currScene.choices.get(buttonNum).next;
-        for (Node node : game.storyScenes) {
-            scene = (Scene) node;
-            if (scene.name.equals(nextScene)) {
-                currScene = scene;
+        // Only get next scene if a choice was made
+        if (choiceNum != -1) {
+            // reset text pointer
+            currTextPointer = 0;
+            String nextScene = currScene.choices.get(choiceNum).next;
+            for (Node node : game.storyScenes) {
+                scene = (Scene) node;
+                if (scene.name.equals(nextScene)) {
+                    currScene = scene;
+                }
+            }
+            for (Node node : game.deathScenes) {
+                scene = (Scene) node;
+                if (scene.name.equals(nextScene)) {
+                    currScene = scene;
+                }
+            }
+            for (Node node : game.endScenes) {
+                scene = (Scene) node;
+                if (scene.name.equals(nextScene)) {
+                    currScene = scene;
+                }
             }
         }
-        for (Node node : game.deathScenes) {
-            scene = (Scene) node;
-            if (scene.name.equals(nextScene)) {
-                currScene = scene;
-            }
+
+        // if there's still text to display, then display it, if not then display the choiceButtons
+        if (currTextPointer < currScene.texts.size()) {
+            updateText();
+        } else {
+            updateButtons();
         }
-        for (Node node : game.endScenes) {
-            scene = (Scene) node;
-            if (scene.name.equals(nextScene)) {
-                currScene = scene;
-            }
-        }
-        // Update the text
-        // Update the buttons
-        updateButtons();
+    }
+
+    private void updateText() {
+        interactionPanel.removeAll();
+        textPanel.removeAll();
+        textPanel.add(new JLabel(currScene.texts.get(currTextPointer)));
+        interactionPanel.add(textPanel);
+        interactionPanel.add(nextButton);
+        interactionPanel.revalidate();
+        interactionPanel.repaint();
+        currTextPointer++;
     }
 
     private void updateButtons() {
         interactionPanel.removeAll();
-        addButtonsToPanel();
+        // TODO: if there are no more buttons, then quit the application
+        if (currScene.choices.size() == 0) {
+            System.exit(0);
+        }
+        for (int i = 0; i < currScene.choices.size(); i++) {
+            choiceButtons.get(i).setText(currScene.choices.get(i).text);
+            interactionPanel.add(choiceButtons.get(i));
+        }
         interactionPanel.revalidate();
         interactionPanel.repaint();
-    }
-
-    private void addButtonsToPanel() {
-        for (int i = 0; i < currScene.choices.size(); i++) {
-            buttons.get(i).setText(currScene.choices.get(i).text);
-            interactionPanel.add(buttons.get(i));
-        }
     }
 
     @Override
