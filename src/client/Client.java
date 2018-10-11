@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Client implements ActionListener {
     private int NUM_BUTTONS = 4;
@@ -72,13 +71,29 @@ public class Client implements ActionListener {
 
     // Updates current elements of game on the frame
     private void updateFrame(int buttonNum) {
+        // Get next scene
+        Scene scene;
         String nextScene = currScene.choices.get(buttonNum).next;
         for (Node node : game.storyScenes) {
-            Scene storyScene = (Scene) node;
-            if (Objects.equals(storyScene.name, nextScene)) {
-                currScene = storyScene;
+            scene = (Scene) node;
+            if (scene.name.equals(nextScene)) {
+                currScene = scene;
             }
         }
+        for (Node node : game.deathScenes) {
+            scene = (Scene) node;
+            if (scene.name.equals(nextScene)) {
+                currScene = scene;
+            }
+        }
+        for (Node node : game.endScenes) {
+            scene = (Scene) node;
+            if (scene.name.equals(nextScene)) {
+                currScene = scene;
+            }
+        }
+        // Update the text
+        // Update the buttons
         updateButtons();
     }
 
