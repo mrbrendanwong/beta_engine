@@ -37,7 +37,7 @@ public class Main {
     public static Map<String, Node> gameParts = new HashMap<>();
 
     public static void main(String[] args) {
-        Tokenizer.makeTokenizer("./src/samples/a_sample.txt", literals);
+        Tokenizer.makeTokenizer("./src/samples/b_sample.txt", literals);
         Game game = new Game();
         game.parse();
 
