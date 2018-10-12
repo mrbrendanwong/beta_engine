@@ -16,7 +16,8 @@ GAME:
 			picture:
 				file: "title.png"
 				position: center
-			bgm: "title_music.mp3"
+			bgm: "D:/git/beta_engine/src/resources/epilogue.wav"
+			sound effect: "D:/git/beta_engine/src/resources/objection.wav"
 
 	STORY SCENES:
 		scene 1:
@@ -26,7 +27,7 @@ GAME:
 			choice:
 				text: "Enter School"
 				next scene: scene 2
-			bgm: "school_music.mp4"
+			bgm: "D:/git/beta_engine/src/resources/epilogue.wav"
 			picture:
 				file: "school.jpeg"
 				position: center
@@ -43,7 +44,7 @@ GAME:
 			choice:
 				text: "Go to school roof"
 				next scene: scene roof 1
-			bgm: "school_music.mp4"
+			bgm: "D:/git/beta_engine/src/resources/turnaboutsisters.wav"
 			picture:
 				file: "amy.png"
 				position: center
@@ -71,7 +72,6 @@ GAME:
 			choice:
 				text: "Make a run for it"
 				next scene: scene class 1
-			bgm: "roof_music.mp4"
 			picture:
 				file: "jessica.png"
 				position: center
@@ -97,8 +97,8 @@ GAME:
 			choice:
 				text: "Dab on her"
 				next scene: death jessica
-			bgm: "roof_music.mp4"
-			sound effect: "kyaa.mp4"
+			bgm: "D:/git/beta_engine/src/resources/epilogue.wav"
+			sound effect: "D:/git/beta_engine/src/resources/takethat.wav"
 			picture:
 				file: "smiling_jessica.png"
 				position: center
@@ -124,33 +124,33 @@ GAME:
 	DEATH SCENES:
 		death jessica:
 			text: "Jessica hates you!"
-			bgm: "game_over.mp3"
-			sound effect: "aww.mp3"
+			bgm: "D:/git/beta_engine/src/resources/turnaboutsisters.wav"
+			sound effect: "D:/git/beta_engine/src/resources/objection.wav"
 			picture:
 				file: "angry_jessica.png"
 				position: center
 		death amy:
 			text: "Amy wants nothing to do with you!"
-			bgm: "game_over.mp3"
-			sound effect: "aww.mp3"
+			bgm: "D:/git/beta_engine/src/resources/turnaboutsisters.wav"
+			sound effect: "D:/git/beta_engine/src/resources/objection.wav"
 			picture:
 				file: "angry_jessica.png"
 				position: center
 		death friendzone:
 			text: "Don't rush love. You'll find someone someday"
-			bgm: "just_a_friend.mp3"
+			bgm: "D:/git/beta_engine/src/resources/turnaboutsisters.wav"
 	END SCENES:
 		end jessica:
 			text: "jessica wants to go on a date with you!"
-			bgm: "congratulations.mp3"
-			sound effect: "fireworks.mp3"
+			bgm: "D:/git/beta_engine/src/resources/turnaboutsisters.wav"
+			sound effect: "D:/git/beta_engine/src/resources/objection.wav"
 			picture:
 				file: "love_jessica.png"
 				position: center
 		end amy:
 			text: "Amy wants to introduce you to her parents!"
-			bgm: "congratulations.mp3"
-			sound effect: "fireworks.mp3"
+			bgm: "D:/git/beta_engine/src/resources/turnaboutsisters.wav"
+			sound effect: "D:/git/beta_engine/src/resources/objection.wav"
 			picture:
 				file: "love_amy.png"
 				position: center

@@ -25,7 +25,7 @@ public class Scene extends Node {
                 case "text":
                     tokenizer.getAndCheckNext("text");
                     while (!Main.literals.contains(tokenizer.checkNext()) && !tokenizer.checkNext().equals("NO_MORE_TOKENS")) {
-                        texts.add(tokenizer.getNext());
+                        texts.add(trimQuotes(tokenizer.getNext()));
                     }
                     break;
                 case "choice":
@@ -40,11 +40,11 @@ public class Scene extends Node {
                     break;
                 case "bgm":
                     tokenizer.getAndCheckNext("bgm");
-                    bgmFile = tokenizer.getNext();
+                    bgmFile = trimQuotes(tokenizer.getNext());
                     break;
                 case "sound effect":
                     tokenizer.getAndCheckNext("sound effect");
-                    soundFile = tokenizer.getNext();
+                    soundFile = trimQuotes(tokenizer.getNext());
                     break;
                 case "picture":
                     tokenizer.getAndCheckNext("picture");
@@ -82,5 +82,9 @@ public class Scene extends Node {
                 ", pictureFile='" + pictureFile + '\'' +
                 ", picturePosition='" + picturePosition + '\'' +
                 '}';
+    }
+
+    private String trimQuotes(String s) {
+        return s.replaceAll("^\"|\"$", "");
     }
 }
