@@ -63,8 +63,8 @@ public class Choice extends Node {
         Integer numStat = Game.numberStats.get(stat);
         String stringStat = Game.stringStats.get(stat);
 
-        if (numStat != null && op.matches("==|>=|<=|>|<") ||
-                stringStat != null && op.matches("==")) {
+        if ((numStat != null && op.matches("==|>=|<=|>|<")) ||
+                (stringStat != null && op.matches("=="))) {
             System.out.println("Scene Condition valid: " + conditionalString);
         } else {
             System.out.println("Scene Condition: " + conditionalString + " is not valid");
@@ -78,8 +78,8 @@ public class Choice extends Node {
         String op = statArr[1];
         Integer numStat = Game.numberStats.get(stat);
         String stringStat = Game.stringStats.get(stat);
-        if (numStat != null && op.matches("\\+|-|\\*|/|=") ||
-                stringStat != null && op.matches("=")) {
+        if ((numStat != null && op.matches("\\+|-|\\*|/|=")) ||
+                (stringStat != null && op.matches("="))) {
             System.out.println("Change Stat valid: " + statString);
         } else {
             System.out.println("Change Stat: " + statString + " is not valid");
