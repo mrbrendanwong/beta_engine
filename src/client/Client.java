@@ -161,7 +161,7 @@ public class Client implements ActionListener {
         updateFrame(Integer.parseInt(e.getActionCommand()));
     }
 
-    public void playAudio(String audioPath, boolean isBgm) {
+    private void playAudio(String audioPath, boolean isBgm) {
         try {
             File audioFile = new File(audioPath);
 
@@ -186,7 +186,7 @@ public class Client implements ActionListener {
         }
     }
 
-    public void stopAudio(boolean isBgm) {
+    private void stopAudio(boolean isBgm) {
         if (isBgm) {
             // Check if the clip is running
             if (bgmClip.isRunning()) {
@@ -201,7 +201,7 @@ public class Client implements ActionListener {
         }
     }
 
-    public void updateAudio() {
+    private void updateAudio() {
         // Check if current scene has bgm
         // If yes, check if equal to the last bgm; if not equal, switch the audio; do nothing otherwise
         // If no, check if there is currently any bgm playing; if so, stop it
