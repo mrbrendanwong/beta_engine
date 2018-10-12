@@ -195,13 +195,13 @@ public class Client implements ActionListener {
             if (isBgm) {
                 currBgm = audioPath;
                 bgmStream = AudioSystem.getAudioInputStream(audioFile);
-                bgmClip = AudioSystem.getClip();
+                bgmClip = AudioSystem.getClip(null);
                 bgmClip.open(bgmStream);
                 bgmClip.start();
                 bgmClip.loop(Clip.LOOP_CONTINUOUSLY);
             } else {
                 soundStream = AudioSystem.getAudioInputStream(audioFile);
-                soundClip = AudioSystem.getClip();
+                soundClip = AudioSystem.getClip(null);
                 soundClip.open(soundStream);
                 soundClip.start();
             }
@@ -218,12 +218,16 @@ public class Client implements ActionListener {
             if (bgmClip.isRunning()) {
                 bgmClip.stop();
             }
-            bgmClip.close();
+            if (bgmClip.isOpen()) {
+                bgmClip.close();
+            }
         } else {
             if (soundClip.isRunning()) {
                 soundClip.stop();
             }
-            soundClip.close();
+            if (soundClip.isOpen()) {
+                soundClip.close();
+            }
         }
     }
 
