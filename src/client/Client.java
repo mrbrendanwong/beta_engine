@@ -33,10 +33,14 @@ public class Client implements ActionListener {
     // CurrBGM
     private String currBgm;
     private AudioInputStream bgmStream;
+    private AudioFormat bgmFormat;
+    private DataLine.Info bgmInfo;
     private Clip bgmClip;
 
     // CurrSound
     private AudioInputStream soundStream;
+    private AudioFormat soundFormat;
+    private DataLine.Info soundInfo;
     private Clip soundClip;
 
     public Client(Game gameObj) {
@@ -195,13 +199,17 @@ public class Client implements ActionListener {
             if (isBgm) {
                 currBgm = audioPath;
                 bgmStream = AudioSystem.getAudioInputStream(audioFile);
-                bgmClip = AudioSystem.getClip();
+                bgmFormat = bgmStream.getFormat();
+                bgmInfo = new DataLine.Info(Clip.class, bgmFormat);
+                bgmClip = (Clip) AudioSystem.getLine(bgmInfo);
                 bgmClip.open(bgmStream);
                 bgmClip.start();
                 bgmClip.loop(Clip.LOOP_CONTINUOUSLY);
             } else {
                 soundStream = AudioSystem.getAudioInputStream(audioFile);
-                soundClip = AudioSystem.getClip();
+                soundFormat = soundStream.getFormat();
+                bgmInfo = new DataLine.Info(Clip.class, soundFormat);
+                soundClip = (Clip) AudioSystem.getLine(bgmInfo);
                 soundClip.open(soundStream);
                 soundClip.start();
             }
@@ -218,12 +226,16 @@ public class Client implements ActionListener {
             if (bgmClip.isRunning()) {
                 bgmClip.stop();
             }
-            bgmClip.close();
+            if (bgmClip.isOpen()) {
+                bgmClip.close();
+            }
         } else {
             if (soundClip.isRunning()) {
                 soundClip.stop();
             }
-            soundClip.close();
+            if (soundClip.isOpen()) {
+                soundClip.close();
+            }
         }
     }
 
