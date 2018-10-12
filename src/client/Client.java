@@ -1,5 +1,6 @@
 package client;
 
+import components.Choice;
 import components.Game;
 import components.Scene;
 import lib.Node;
@@ -19,6 +20,7 @@ public class Client implements ActionListener {
     private Game game;
     private Scene currScene;
     private int currTextPointer;
+    private int[] buttonToChoiceIndex = new int[NUM_BUTTONS];
 
     private JFrame frame;
     private JPanel statusPanel;
@@ -94,13 +96,22 @@ public class Client implements ActionListener {
 
     // Updates current elements of game on the frame
     private void updateFrame(int choiceNum) {
+        // Current scene
+        String prevScene = currScene.name;
         // Get next scene
         Scene scene;
         // Only get next scene if a choice was made
         if (choiceNum != -1) {
+            // set new stat
+            int sceneChoiceIndex = buttonToChoiceIndex[choiceNum];
+            Choice c = currScene.choices.get(sceneChoiceIndex);
+            if (c.statString != null) {
+                c.setStat();
+            }
+
             // reset text pointer
             currTextPointer = 0;
-            String nextScene = currScene.choices.get(choiceNum).next;
+            String nextScene = currScene.choices.get(sceneChoiceIndex).next;
             for (Node node : game.storyScenes) {
                 scene = (Scene) node;
                 if (scene.name.equals(nextScene)) {
@@ -121,6 +132,12 @@ public class Client implements ActionListener {
             }
             // Only update audio if choice was made
             updateAudio();
+
+            if (prevScene.equals(currScene.name)) {
+                System.out.println("Infinite scene loop");
+                // TODO Probably show something?
+                System.exit(1);
+            }
         }
 
         // if there's still text to display, then display it, if not then display the choiceButtons
@@ -148,9 +165,18 @@ public class Client implements ActionListener {
         if (currScene.choices.size() == 0) {
             System.exit(0);
         }
+        int buttonIndex = 0;
         for (int i = 0; i < currScene.choices.size(); i++) {
-            choiceButtons.get(i).setText(currScene.choices.get(i).text);
-            interactionPanel.add(choiceButtons.get(i));
+            Choice c = currScene.choices.get(i);
+            if (c.conditionalString == null || c.evalConditional()) {
+                choiceButtons.get(buttonIndex).setText(c.text);
+                interactionPanel.add(choiceButtons.get(buttonIndex));
+                buttonToChoiceIndex[buttonIndex] = i;
+                buttonIndex++;
+            }
+            if (buttonIndex == NUM_BUTTONS) {
+                break;
+            }
         }
         interactionPanel.revalidate();
         interactionPanel.repaint();
