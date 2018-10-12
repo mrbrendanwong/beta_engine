@@ -208,8 +208,8 @@ public class Client implements ActionListener {
             } else {
                 soundStream = AudioSystem.getAudioInputStream(audioFile);
                 soundFormat = soundStream.getFormat();
-                bgmInfo = new DataLine.Info(Clip.class, soundFormat);
-                soundClip = (Clip) AudioSystem.getLine(bgmInfo);
+                soundInfo = new DataLine.Info(Clip.class, soundFormat);
+                soundClip = (Clip) AudioSystem.getLine(soundInfo);
                 soundClip.open(soundStream);
                 soundClip.start();
             }
