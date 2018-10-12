@@ -33,14 +33,10 @@ public class Client implements ActionListener {
     // CurrBGM
     private String currBgm;
     private AudioInputStream bgmStream;
-    private AudioFormat bgmFormat;
-    private DataLine.Info bgmInfo;
     private Clip bgmClip;
 
     // CurrSound
     private AudioInputStream soundStream;
-    private AudioFormat soundFormat;
-    private DataLine.Info soundInfo;
     private Clip soundClip;
 
     public Client(Game gameObj) {
@@ -199,17 +195,13 @@ public class Client implements ActionListener {
             if (isBgm) {
                 currBgm = audioPath;
                 bgmStream = AudioSystem.getAudioInputStream(audioFile);
-                bgmFormat = bgmStream.getFormat();
-                bgmInfo = new DataLine.Info(Clip.class, bgmFormat);
-                bgmClip = (Clip) AudioSystem.getLine(bgmInfo);
+                bgmClip = AudioSystem.getClip(null);
                 bgmClip.open(bgmStream);
                 bgmClip.start();
                 bgmClip.loop(Clip.LOOP_CONTINUOUSLY);
             } else {
                 soundStream = AudioSystem.getAudioInputStream(audioFile);
-                soundFormat = soundStream.getFormat();
-                soundInfo = new DataLine.Info(Clip.class, soundFormat);
-                soundClip = (Clip) AudioSystem.getLine(soundInfo);
+                soundClip = AudioSystem.getClip(null);
                 soundClip.open(soundStream);
                 soundClip.start();
             }
