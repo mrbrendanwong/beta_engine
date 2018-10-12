@@ -49,13 +49,14 @@ public class Tokenizer {
         System.out.println(tokenizedProgram);
         String [] temparray = tokenizedProgram.split("[:_\n\r](?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 
-        // Remove null elements
         List<String> x = new ArrayList<>(Arrays.asList(temparray));
-        x.removeAll(Arrays.asList("", null));
-        System.out.println(x);
 
         // Trim all elements
         x.replaceAll(String::trim);
+
+        // Remove null elements
+        x.removeAll(Arrays.asList("", null));
+        System.out.println(x);
 
         // Put into tokens
         tokens = new String[x.size()];
@@ -89,7 +90,7 @@ public class Tokenizer {
         String s = checkNext();
         System.out.println("comparing: "+s+"  to  "+regexp);
         if (!s.matches(regexp)) {
-            System.out.println("checktoken " + s + " failed");
+            System.out.println("checkToken " + s + " failed");
         }
         return (s.matches(regexp));
     }
@@ -97,7 +98,10 @@ public class Tokenizer {
 
     public String getAndCheckNext(String regexp){
         String s = getNext();
-        if (!s.matches(regexp)) System.exit(0);
+        if (!s.matches(regexp)) {
+            System.out.println("Did not match: "+s+"  to  "+regexp);
+            System.exit(0);
+        }
         System.out.println("matched: "+s+"  to  "+regexp);
         return s;
     }
