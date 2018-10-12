@@ -18,7 +18,7 @@ public class Client implements ActionListener {
     private Game game;
     private Scene currScene;
     private int currTextPointer;
-    private int[] choiceToButtonIndex = new int[NUM_BUTTONS];
+    private int[] buttonToChoiceIndex = new int[NUM_BUTTONS];
 
     private JFrame frame;
     private JPanel statusPanel;
@@ -90,7 +90,7 @@ public class Client implements ActionListener {
         // Only get next scene if a choice was made
         if (choiceNum != -1) {
             // set new stat
-            int sceneChoiceIndex = choiceToButtonIndex[choiceNum];
+            int sceneChoiceIndex = buttonToChoiceIndex[choiceNum];
             Choice c = currScene.choices.get(sceneChoiceIndex);
             if (c.statString != null) {
                 c.setStat();
@@ -155,7 +155,7 @@ public class Client implements ActionListener {
             if (c.conditionalString == null || c.evalConditional()) {
                 choiceButtons.get(buttonIndex).setText(c.text);
                 interactionPanel.add(choiceButtons.get(buttonIndex));
-                choiceToButtonIndex[buttonIndex] = i;
+                buttonToChoiceIndex[buttonIndex] = i;
                 buttonIndex++;
             }
             if (buttonIndex == NUM_BUTTONS) {
