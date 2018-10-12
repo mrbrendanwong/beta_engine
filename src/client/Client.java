@@ -84,7 +84,7 @@ public class Client implements ActionListener {
     // Updates current elements of game on the frame
     private void updateFrame(int choiceNum) {
         // Current scene
-        String oldScene = currScene.name;
+        String prevScene = currScene.name;
         // Get next scene
         Scene scene;
         // Only get next scene if a choice was made
@@ -117,7 +117,7 @@ public class Client implements ActionListener {
                     currScene = scene;
                 }
             }
-            if (oldScene.equals(currScene.name)) {
+            if (prevScene.equals(currScene.name)) {
                 System.out.println("Infinite scene loop");
                 // TODO Probably show something?
                 System.exit(1);
