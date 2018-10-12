@@ -24,17 +24,17 @@ public class Choice extends Node {
                         return;
                     }
                     // trim double quotes from start and end
-                    text = trimQuotes(tokenizer.getNext());
+                    text = tokenizer.getNext();
                     break;
                 case "next scene":
                     next = tokenizer.getNext();
                     break;
                 case "conditional":
-                    conditionalString = trimQuotes(tokenizer.getNext());
+                    conditionalString = tokenizer.getNext();
                     checkConditional();
                     break;
                 case "change stat":
-                    statString = trimQuotes(tokenizer.getNext());
+                    statString = tokenizer.getNext();
                     checkSetStat();
                     break;
                 default:
@@ -50,10 +50,6 @@ public class Choice extends Node {
             System.out.println("Choice \"" + text + "\" is missing a next scene");
             System.exit(1);
         }
-    }
-
-    private String trimQuotes(String s) {
-        return s.replaceAll("^\"|\"$", "");
     }
 
     private void checkConditional() {
