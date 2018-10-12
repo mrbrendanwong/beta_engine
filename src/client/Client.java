@@ -34,7 +34,6 @@ public class Client implements ActionListener {
     private Clip bgmClip;
 
     // CurrSound
-    private String currSound;
     private AudioInputStream soundStream;
     private Clip soundClip;
 
@@ -175,7 +174,6 @@ public class Client implements ActionListener {
                 bgmClip.start();
                 bgmClip.loop(Clip.LOOP_CONTINUOUSLY);
             } else {
-                currSound = audioPath;
                 soundStream = AudioSystem.getAudioInputStream(audioFile);
                 soundClip = AudioSystem.getClip();
                 soundClip.open(soundStream);
