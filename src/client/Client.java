@@ -184,7 +184,7 @@ public class Client implements ActionListener {
 
         } catch (Exception e) {
             System.out.println(e);
-            System.exit(0);
+            System.exit(1);
         }
     }
 
@@ -204,7 +204,6 @@ public class Client implements ActionListener {
     }
 
     public void updateAudio() {
-        System.out.println(currScene.bgmFile);
         // Check if current scene has bgm
         // If yes, check if equal to the last bgm; if not equal, switch the audio; do nothing otherwise
         // If no, check if there is currently any bgm playing; if so, stop it
