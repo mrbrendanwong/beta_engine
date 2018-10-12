@@ -97,7 +97,7 @@ GAME:
 			choice:
 				text: "Dab on her"
 				next scene: death jessica
-			bgm: "resources/epilogue.wav"
+			bgm: "src/resources/epilogue.wav"
 			sound effect: "src/resources/takethat.wav"
 			picture:
 				file: "smiling_jessica.png"

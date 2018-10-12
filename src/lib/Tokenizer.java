@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Tokenizer {
 
@@ -54,13 +55,17 @@ public class Tokenizer {
         // Trim all elements
         x.replaceAll(String::trim);
 
+        // Trim quotes
+        List<String> quotesTrimmed = x.stream().map(s -> trimQuotes(s)).collect(Collectors.toList());
+        System.out.println("Trimmed Quotes: " + quotesTrimmed);
+
         // Remove null elements
-        x.removeAll(Arrays.asList("", null));
-        System.out.println(x);
+        quotesTrimmed.removeAll(Arrays.asList("", null));
+        System.out.println("Removed null elements: " + quotesTrimmed);
 
         // Put into tokens
-        tokens = new String[x.size()];
-        tokens = x.toArray(tokens);
+        tokens = new String[quotesTrimmed.size()];
+        tokens = quotesTrimmed.toArray(tokens);
         System.out.println(Arrays.asList(tokens));
     }
 
@@ -118,5 +123,9 @@ public class Tokenizer {
 
     public static Tokenizer getTokenizer(){
         return theTokenizer;
+    }
+
+    private String trimQuotes(String s) {
+        return s.replaceAll("^\"|\"$", "");
     }
 }
