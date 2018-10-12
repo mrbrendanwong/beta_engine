@@ -8,7 +8,8 @@ import java.util.Arrays;
 public class Choice extends Node {
     public String text;
     public String next;
-    public boolean conditional = true;
+    public String statString;
+    public String conditionalString;
 
     @Override
     public void parse() {
@@ -29,10 +30,12 @@ public class Choice extends Node {
                     next = tokenizer.getNext();
                     break;
                 case "conditional":
-                    conditional = evalConditional(trimQuotes(tokenizer.getNext()));
+                    conditionalString = trimQuotes(tokenizer.getNext());
+                    checkConditional();
                     break;
                 case "change stat":
-                    setStat(trimQuotes(tokenizer.getNext()));
+                    statString = trimQuotes(tokenizer.getNext());
+                    checkSetStat();
                     break;
                 default:
                     System.out.println("Invalid token for choice: " + currToken);
@@ -53,6 +56,37 @@ public class Choice extends Node {
         return s.replaceAll("^\"|\"$", "");
     }
 
+    private void checkConditional() {
+        String[] statArr = splitStat(conditionalString);
+        String stat = statArr[0];
+        String op = statArr[1];
+        Integer numStat = Game.numberStats.get(stat);
+        String stringStat = Game.stringStats.get(stat);
+
+        if (numStat != null && op.matches("==|>=|<=|>|<") ||
+                stringStat != null && op.matches("==")) {
+            System.out.println("Scene Condition valid: " + conditionalString);
+        } else {
+            System.out.println("Scene Condition: " + conditionalString + " is not valid");
+            System.exit(1);
+        }
+    }
+
+    private void checkSetStat() {
+        String[] statArr = splitStat(statString);
+        String stat = statArr[0];
+        String op = statArr[1];
+        Integer numStat = Game.numberStats.get(stat);
+        String stringStat = Game.stringStats.get(stat);
+        if (numStat != null && op.matches("\\+|-|\\*|/|=") ||
+                stringStat != null && op.matches("=")) {
+            System.out.println("Change Stat valid: " + statString);
+        } else {
+            System.out.println("Change Stat: " + statString + " is not valid");
+            System.exit(1);
+        }
+    }
+
     private String[] splitStat(String statInput) {
         String[] statString = statInput.split(" ");
         if (statString.length < 3) {
@@ -66,8 +100,8 @@ public class Choice extends Node {
         return new String[]{statName, op, right};
     }
 
-    private boolean evalConditional(String statInput) {
-        String[] statArr = splitStat(statInput);
+    public boolean evalConditional() {
+        String[] statArr = splitStat(conditionalString);
         String stat = statArr[0];
         String op = statArr[1];
         String right = statArr[2];
@@ -75,8 +109,10 @@ public class Choice extends Node {
         String stringStat = Game.stringStats.get(stat);
 
         if (numStat != null) {
+            System.out.println("Evaluated num conditional");
             return evalNumStat(numStat, op, right);
         } else if (stringStat != null) {
+            System.out.println("Evaluated string conditional");
             return stringStat.equals(right);
         } else {
             System.out.println("Stat: " + stat + " is not declared");
@@ -111,8 +147,8 @@ public class Choice extends Node {
         return false;
     }
 
-    private void setStat(String statInput) {
-        String[] statArr = splitStat(statInput);
+    public void setStat() {
+        String[] statArr = splitStat(statString);
         String stat = statArr[0];
         String op = statArr[1];
         String right = statArr[2];
@@ -121,10 +157,14 @@ public class Choice extends Node {
 
         if (numStat != null) {
             setNumStat(stat, numStat, op, right);
-        } else if (stringStat != null) {
+            System.out.println("Set stat: " + stat + " to " +
+                    Game.numberStats.get(stat));
+        } else if (stringStat != null && op.matches("=")) {
             Game.stringStats.put(stringStat, right);
+            System.out.println("Set stat: " + stat + " to " +
+                    Game.stringStats.get(stat));
         } else {
-            System.out.println("Stat " + stat + " is not declared");
+            System.out.println("SetStat stat:" + stat + " is not declared");
             System.exit(1);
         }
     }
