@@ -4,6 +4,7 @@ import lib.Node;
 import ui.Main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Scene extends Node {
@@ -14,8 +15,7 @@ public class Scene extends Node {
 
     public String bgmFile;
     public String soundFile;
-    public String pictureFile;
-    public String picturePosition = "center";
+    public HashMap<String, String> pictureFilePositionMap = new HashMap<>();
 
     @Override
     public void parse() {
@@ -48,6 +48,8 @@ public class Scene extends Node {
                     break;
                 case "picture":
                     tokenizer.getAndCheckNext("picture");
+                    String pictureFile = null;
+                    String picturePosition = "center";
                     while (tokenizer.checkNext().equals("file") || tokenizer.checkNext().equals("position")) {
                         switch (tokenizer.checkNext()) {
                             case "file":
@@ -61,6 +63,9 @@ public class Scene extends Node {
                             default:
                                 break;
                         }
+                    }
+                    if (pictureFile != null) {
+                        pictureFilePositionMap.put(pictureFile, picturePosition);
                     }
                     break;
                 default:
@@ -79,8 +84,7 @@ public class Scene extends Node {
                 ", timer=" + timer +
                 ", bgmFile='" + bgmFile + '\'' +
                 ", soundFile='" + soundFile + '\'' +
-                ", pictureFile='" + pictureFile + '\'' +
-                ", picturePosition='" + picturePosition + '\'' +
+                ", pictures='" + pictureFilePositionMap + '\'' +
                 '}';
     }
 }
