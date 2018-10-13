@@ -47,25 +47,9 @@ public class Scene extends Node {
                     break;
                 case "picture":
                     tokenizer.getAndCheckNext("picture");
-                    String pictureFile = null;
-                    String picturePosition = "center";
-                    while (tokenizer.checkNext().equals("file") || tokenizer.checkNext().equals("position")) {
-                        switch (tokenizer.checkNext()) {
-                            case "file":
-                                tokenizer.getAndCheckNext("file");
-                                pictureFile = tokenizer.getNext();
-                                break;
-                            case "position":
-                                tokenizer.getAndCheckNext("position");
-                                picturePosition = tokenizer.getAndCheckNext("center|left|right|top|bottom");
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    if (pictureFile != null) {
-                        pictures.add(new Picture(pictureFile, picturePosition));
-                    }
+                    Picture p = new Picture();
+                    p.parse();
+                    pictures.add(p);
                     break;
                 default:
                     return;
