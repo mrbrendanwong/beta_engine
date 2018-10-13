@@ -71,10 +71,9 @@ public class Client implements ActionListener {
             statsLabel = new JLabel("", SwingConstants.CENTER);
             statusPanel.add(statsLabel, BorderLayout.CENTER);
         }
-        // TODO if there is a timer, initialize timerLabel
+
         countdown = new JLabel("", SwingConstants.CENTER);
         statusPanel.add(countdown, BorderLayout.SOUTH);
-        //timer.setText("Time remaining: 30");
 
         // Set status and interaction panel sizes
         statusPanel.setMinimumSize(new Dimension(0, 50));
@@ -126,10 +125,6 @@ public class Client implements ActionListener {
     // Updates current elements of game on the frame
     // Pass a sceneName to force scene change
     private void updateFrame(String sceneName, int choiceNum) {
-        // Current scene
-        Scene prevScene = currScene;
-        // Get next scene
-        Scene scene;
         // Only get new scene if a choice was made
         // or forced scene change
         if (choiceNum != -1 || !sceneName.isEmpty()) {
@@ -162,17 +157,7 @@ public class Client implements ActionListener {
             updateAudio();
             // Update stats if needed
             updateStats();
-
-            // Comment: Let the end user worry about infinite scene loops (?)
-
-            if (prevScene.equals(currScene.name)) {
-                System.out.println("Infinite scene loop");
-                // TODO Probably show something?
-                System.exit(1);
-            }
-
         }
-
 
         // if there's still text to display, then display it, if not then display the choiceButtons
         if (currTextPointer < currScene.texts.size()) {
