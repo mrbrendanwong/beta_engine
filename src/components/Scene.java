@@ -3,7 +3,8 @@ package components;
 import lib.Node;
 import ui.Main;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Scene extends Node {
     public String name;
@@ -13,7 +14,7 @@ public class Scene extends Node {
 
     public String bgmFile;
     public String soundFile;
-    public Map<String, String> pictureFilePositionMap = new LinkedHashMap<>();
+    public List<Picture> pictures = new ArrayList<>();
 
     @Override
     public void parse() {
@@ -63,7 +64,7 @@ public class Scene extends Node {
                         }
                     }
                     if (pictureFile != null) {
-                        pictureFilePositionMap.put(pictureFile, picturePosition);
+                        pictures.add(new Picture(pictureFile, picturePosition));
                     }
                     break;
                 default:
@@ -82,7 +83,7 @@ public class Scene extends Node {
                 ", timer=" + timer +
                 ", bgmFile='" + bgmFile + '\'' +
                 ", soundFile='" + soundFile + '\'' +
-                ", pictures='" + pictureFilePositionMap + '\'' +
+                ", pictures='" + pictures + '\'' +
                 '}';
     }
 }

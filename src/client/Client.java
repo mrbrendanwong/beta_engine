@@ -2,6 +2,7 @@ package client;
 
 import components.Choice;
 import components.Game;
+import components.Picture;
 import components.Scene;
 import lib.Node;
 
@@ -16,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Client implements ActionListener {
     private int NUM_BUTTONS = 4;
@@ -192,18 +192,18 @@ public class Client implements ActionListener {
 
     private void updatePictures() {
         mainPanel.removeAll();
-        if (!currScene.pictureFilePositionMap.isEmpty()) {
-            for (Map.Entry<String, String> pictureEntry : currScene.pictureFilePositionMap.entrySet()) {
+        if (!currScene.pictures.isEmpty()) {
+            for (Picture picture : currScene.pictures) {
                 try {
                     // in order to get the positioning working with the layers
                     // have to create a new transparent panel for every picture
                     // and set the picture's position in every panel
-                    BufferedImage img = ImageIO.read(new File(pictureEntry.getKey()));
+                    BufferedImage img = ImageIO.read(new File(picture.getFile()));
                     ImageIcon icon = new ImageIcon(img);
                     JPanel imagePanel = new JPanel(new BorderLayout());
                     imagePanel.setOpaque(false);
                     JLabel imageLabel = new JLabel(icon);
-                    imagePanel.add(imageLabel, evaluateIconPosition(pictureEntry.getValue()));
+                    imagePanel.add(imageLabel, evaluateIconPosition(picture.getPosition()));
                     mainPanel.add(imagePanel);
                 } catch (IOException | IllegalArgumentException e) {
                     e.printStackTrace();
