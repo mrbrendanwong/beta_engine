@@ -14,20 +14,20 @@ GAME:
 					"Start Game"
 				next scene: scene 1
 			picture:
-				file: "src/resources/hallway.jpg"
-				position: center
+				file: "src/resources/zac4.jpg"
+				position: right
 			picture:
-				file: "src/resources/zac1.jpg"
-				position: top
-			picture:
-				file: "src/resources/zac2.jpg"
-				position: bottom
-			picture:
-				file: "src/resources/zac3.jpg"
+				file: "src/resources/zac4.jpg"
 				position: left
 			picture:
 				file: "src/resources/zac4.jpg"
-				position: right
+				position: bottom
+			picture:
+				file: "src/resources/zac4.jpg"
+				position: top
+			picture:
+				file: "src/resources/hallway.jpg"
+				position: center
 			bgm: "src/resources/epilogue.wav"
 			sound effect: "src/resources/objection.wav"
 
@@ -58,10 +58,10 @@ GAME:
 				next scene: scene roof 1
 			bgm: "src/resources/turnaboutsisters.wav"
 			picture:
-				file: "src/resources/hallway.jpg"
+				file: "src/resources/zac2.jpg"
 				position: center
 			picture:
-				file: "src/resources/zac2.jpg"
+				file: "src/resources/hallway.jpg"
 				position: center
 		
 		scene roof 1:
@@ -85,10 +85,10 @@ GAME:
 				text: "Make a run for it"
 				next scene: scene class 1
 			picture:
-				file: "src/resources/hallway.jpg"
+				file: "src/resources/zac3.jpg"
 				position: center
 			picture:
-				file: "src/resources/zac3.jpg"
+				file: "src/resources/hallway.jpg"
 				position: center
 		
 		scene roof 2:
@@ -112,11 +112,11 @@ GAME:
 			bgm: "src/resources/epilogue.wav"
 			sound effect: "src/resources/takethat.wav"
 			picture:
-				file: "src/resources/hallway.jpg"
-				position: center
-			picture:
 				file: "src/resources/zac3.jpg"
 				position: left
+			picture:
+				file: "src/resources/hallway.jpg"
+				position: center
 
 		scene roof 3:
 			text:
@@ -140,14 +140,14 @@ GAME:
 			sound effect: "src/resources/objection.wav"
 			picture:
 				file: "src/resources/zac4.jpg"
-				position: center
+				position: bottom
 		death amy:
 			text: "Amy wants nothing to do with you!"
 			bgm: "src/resources/turnaboutsisters.wav"
 			sound effect: "src/resources/objection.wav"
 			picture:
 				file: "src/resources/zac4.jpg"
-				position: center
+				position: top
 		death friendzone:
 			text: "Don't rush love. You'll find someone someday"
 			bgm: "src/resources/turnaboutsisters.wav"

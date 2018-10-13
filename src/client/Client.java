@@ -29,7 +29,6 @@ public class Client implements ActionListener {
     private JFrame frame;
     private JPanel statusPanel;
     private JPanel mainPanel;
-    private JLayeredPane layeredPane;
     private JPanel interactionPanel;
     private JPanel textPanel;
     private JButton nextButton;
@@ -79,11 +78,7 @@ public class Client implements ActionListener {
         timer.setText("Time remaining: 30");
 
         // Set main panel
-        mainPanel.setLayout(new BorderLayout());
-        layeredPane = new JLayeredPane();
-        // TODO for some reason i need to set a layout, when the docs don't say i do
-        layeredPane.setLayout(new OverlayLayout(layeredPane));
-        mainPanel.add(layeredPane);
+        mainPanel.setLayout(new OverlayLayout(mainPanel));
 
         // Set interaction panel
         GridLayout buttonLayout = new GridLayout(2, 2);
@@ -197,8 +192,6 @@ public class Client implements ActionListener {
 
     private void updatePictures() {
         mainPanel.removeAll();
-        layeredPane.removeAll();
-        int layer = 0;
         if (!currScene.pictureFilePositionMap.isEmpty()) {
             for (Map.Entry<String, String> pictureEntry : currScene.pictureFilePositionMap.entrySet()) {
                 try {
@@ -211,15 +204,12 @@ public class Client implements ActionListener {
                     imagePanel.setOpaque(false);
                     JLabel imageLabel = new JLabel(icon);
                     imagePanel.add(imageLabel, evaluateIconPosition(pictureEntry.getValue()));
-                    layeredPane.setLayer(imagePanel, layer);
-                    layeredPane.add(imagePanel);
-                    layer++;
+                    mainPanel.add(imagePanel);
                 } catch (IOException | IllegalArgumentException e) {
                     e.printStackTrace();
                 }
             }
         }
-        mainPanel.add(layeredPane);
         mainPanel.revalidate();
         mainPanel.repaint();
     }
