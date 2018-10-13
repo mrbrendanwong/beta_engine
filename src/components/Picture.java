@@ -2,9 +2,15 @@ package components;
 
 import lib.Node;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 public class Picture extends Node {
-    private String file;
+    private String fileToken;
     private String position;
+    private BufferedImage img;
 
     @Override
     public void parse() {
@@ -12,7 +18,10 @@ public class Picture extends Node {
             switch (tokenizer.checkNext()) {
                 case "file":
                     tokenizer.getAndCheckNext("file");
-                    file = tokenizer.getNext();
+                    fileToken = tokenizer.getNext();
+                    File file = new File(fileToken);
+                    checkFile(file);
+                    readImage(file);
                     break;
                 case "position":
                     tokenizer.getAndCheckNext("position");
@@ -24,8 +33,8 @@ public class Picture extends Node {
         }
     }
 
-    public String getFile() {
-        return file;
+    public BufferedImage getImg() {
+        return img;
     }
 
     public String getPosition() {
@@ -33,6 +42,25 @@ public class Picture extends Node {
     }
 
     public String toString() {
-        return "(" + file + ", " + position + ")";
+        return "(" + fileToken + ", " + position + ")";
+    }
+
+    private void checkFile(File file) {
+        if (!file.exists()) {
+            System.out.println("\"" + fileToken + "\" doesn't exist");
+            System.exit(1);
+        }
+    }
+
+    private void readImage(File file) {
+        try {
+            img = ImageIO.read(file);
+            if (img == null) {
+                throw new IOException();
+            }
+        } catch (IOException e) {
+            System.out.println("Was unable to read the image file \"" + file.getName() + "\"");
+            System.exit(1);
+        }
     }
 }

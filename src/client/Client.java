@@ -194,20 +194,12 @@ public class Client implements ActionListener {
         mainPanel.removeAll();
         if (!currScene.pictures.isEmpty()) {
             for (Picture picture : currScene.pictures) {
-                try {
-                    // in order to get the positioning working with the layers
-                    // have to create a new transparent panel for every picture
-                    // and set the picture's position in every panel
-                    BufferedImage img = ImageIO.read(new File(picture.getFile()));
-                    ImageIcon icon = new ImageIcon(img);
-                    JPanel imagePanel = new JPanel(new BorderLayout());
-                    imagePanel.setOpaque(false);
-                    JLabel imageLabel = new JLabel(icon);
-                    imagePanel.add(imageLabel, evaluateIconPosition(picture.getPosition()));
-                    mainPanel.add(imagePanel);
-                } catch (IOException | IllegalArgumentException e) {
-                    e.printStackTrace();
-                }
+                ImageIcon icon = new ImageIcon(picture.getImg());
+                JPanel imagePanel = new JPanel(new BorderLayout());
+                imagePanel.setOpaque(false);
+                JLabel imageLabel = new JLabel(icon);
+                imagePanel.add(imageLabel, evaluateIconPosition(picture.getPosition()));
+                mainPanel.add(imagePanel);
             }
         }
         mainPanel.revalidate();
