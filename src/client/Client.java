@@ -28,6 +28,8 @@ public class Client implements ActionListener {
     private JPanel textPanel;
     private JPanel interactionPanel;
     private JButton nextButton;
+    private JLabel statsLabel;
+    private JLabel timer; // TODO
     private List<JButton> choiceButtons = new ArrayList<>();
 
     private JPanel timerPanel;
@@ -58,18 +60,41 @@ public class Client implements ActionListener {
         // 1st is the status panel
         // 2nd is the picture panel
         // 3rd is the button and text panel
-        GridLayout layout = new GridLayout(3, 1);
-        frame.setLayout(layout);
 
         statusPanel = new JPanel();
         mainPanel = new JPanel();
         interactionPanel = new JPanel();
+
+        // Set status panel
+        statusPanel.setLayout(new BorderLayout());
+
+        if (Game.stringStats.size() != 0 || Game.numberStats.size() != 0) {
+            statsLabel = new JLabel("", SwingConstants.CENTER);
+            statusPanel.add(statsLabel, BorderLayout.CENTER);
+        }
+        // TODO if there is a timer, initialize timerLabel
+        timer = new JLabel("", SwingConstants.CENTER);
+        statusPanel.add(timer, BorderLayout.SOUTH);
+        timer.setText("Time remaining: 30");
+
+        // Set status and interaction panel sizes
+        statusPanel.setMinimumSize(new Dimension(0, 50));
+        interactionPanel.setMinimumSize(new Dimension(0, 200));
+
+        statusPanel.setPreferredSize(statusPanel.getMinimumSize());
+        interactionPanel.setPreferredSize(interactionPanel.getMinimumSize());
+
         GridLayout buttonLayout = new GridLayout(2, 2);
         interactionPanel.setLayout(buttonLayout);
 
-        frame.add(statusPanel);
-        frame.add(mainPanel);
-        frame.add(interactionPanel);
+        frame.add(statusPanel, BorderLayout.NORTH);
+        frame.add(mainPanel, BorderLayout.CENTER);
+        frame.add(interactionPanel, BorderLayout.SOUTH);
+
+        interactionPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        if (timer != null || statsLabel != null) {
+            statusPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        }
 
         // Create text and next button
         textPanel = new JPanel();
@@ -96,6 +121,7 @@ public class Client implements ActionListener {
 
         // Add text and choiceButtons and stuff
         updateFrame("", -1);
+        updateStats();
     }
 
     public void launchFrame(){
@@ -139,6 +165,8 @@ public class Client implements ActionListener {
 
             // Only update audio if choice was made
             updateAudio();
+            // Update stats if needed
+            updateStats();
 
             // Comment: Let the end user worry about infinite scene loops (?)
 
@@ -170,6 +198,21 @@ public class Client implements ActionListener {
         interactionPanel.revalidate();
         interactionPanel.repaint();
         currTextPointer++;
+    }
+
+    private void updateStats() {
+        if (statsLabel == null) {
+            return;
+        }
+        String text = "";
+        for (String stat : Game.numberStats.keySet()) {
+            text += " " + stat + ": " + Game.numberStats.get(stat) + " |";
+        }
+        for (String stat : Game.stringStats.keySet()) {
+            text += " " + stat + ": " + Game.numberStats.get(stat) + " |";
+        }
+
+        statsLabel.setText(text.substring(0, text.length()-2));
     }
 
     private void updateButtons() {
@@ -251,13 +294,13 @@ public class Client implements ActionListener {
             if (isBgm) {
                 currBgm = audioPath;
                 bgmStream = AudioSystem.getAudioInputStream(audioFile);
-                bgmClip = AudioSystem.getClip();
+                bgmClip = AudioSystem.getClip(null);
                 bgmClip.open(bgmStream);
                 bgmClip.start();
                 bgmClip.loop(Clip.LOOP_CONTINUOUSLY);
             } else {
                 soundStream = AudioSystem.getAudioInputStream(audioFile);
-                soundClip = AudioSystem.getClip();
+                soundClip = AudioSystem.getClip(null);
                 soundClip.open(soundStream);
                 soundClip.start();
             }
@@ -274,12 +317,16 @@ public class Client implements ActionListener {
             if (bgmClip.isRunning()) {
                 bgmClip.stop();
             }
-            bgmClip.close();
+            if (bgmClip.isOpen()) {
+                bgmClip.close();
+            }
         } else {
             if (soundClip.isRunning()) {
                 soundClip.stop();
             }
-            soundClip.close();
+            if (soundClip.isOpen()) {
+                soundClip.close();
+            }
         }
     }
 
