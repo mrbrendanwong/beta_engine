@@ -81,8 +81,7 @@ public class Client implements ActionListener {
         // Set main panel
         mainPanel.setLayout(new BorderLayout());
         layeredPane = new JLayeredPane();
-        layeredPane.setLayout(new BorderLayout());
-        layeredPane.setBackground(Color.RED);
+        layeredPane.setLayout(new OverlayLayout(layeredPane));
         mainPanel.add(layeredPane);
 
         // Set interaction panel
@@ -204,9 +203,12 @@ public class Client implements ActionListener {
                 try {
                     BufferedImage img = ImageIO.read(new File(pictureEntry.getKey()));
                     ImageIcon icon = new ImageIcon(img);
+                    JPanel imagePanel = new JPanel(new BorderLayout());
+                    imagePanel.setOpaque(false);
                     JLabel imageLabel = new JLabel(icon);
-                    layeredPane.add(imageLabel, evaluateIconPosition(pictureEntry.getValue()));
-                    layeredPane.setLayer(imageLabel, layer);
+                    imagePanel.add(imageLabel, evaluateIconPosition(pictureEntry.getValue()));
+                    layeredPane.setLayer(imagePanel, layer);
+                    layeredPane.add(imagePanel);
                     layer++;
                 } catch (IOException | IllegalArgumentException e) {
                     e.printStackTrace();
