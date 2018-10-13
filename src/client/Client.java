@@ -2,15 +2,19 @@ package client;
 
 import components.Choice;
 import components.Game;
+import components.Picture;
 import components.Scene;
 import lib.Node;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,15 +77,19 @@ public class Client implements ActionListener {
         statusPanel.add(timer, BorderLayout.SOUTH);
         timer.setText("Time remaining: 30");
 
+        // Set main panel
+        mainPanel.setLayout(new OverlayLayout(mainPanel));
+
+        // Set interaction panel
+        GridLayout buttonLayout = new GridLayout(2, 2);
+        interactionPanel.setLayout(buttonLayout);
+
         // Set status and interaction panel sizes
         statusPanel.setMinimumSize(new Dimension(0, 50));
         interactionPanel.setMinimumSize(new Dimension(0, 200));
 
         statusPanel.setPreferredSize(statusPanel.getMinimumSize());
         interactionPanel.setPreferredSize(interactionPanel.getMinimumSize());
-
-        GridLayout buttonLayout = new GridLayout(2, 2);
-        interactionPanel.setLayout(buttonLayout);
 
         frame.add(statusPanel, BorderLayout.NORTH);
         frame.add(mainPanel, BorderLayout.CENTER);
@@ -107,6 +115,11 @@ public class Client implements ActionListener {
 
         // Set start scene to the current scene
         currScene = game.startScene;
+
+        // Add starting pictures
+        updatePictures();
+
+        // Add starting music
         if (currScene.bgmFile != null) playAudio(currScene.bgmFile, true);
         if (currScene.soundFile != null) playAudio(currScene.soundFile, false);
 
@@ -156,7 +169,8 @@ public class Client implements ActionListener {
                     currScene = scene;
                 }
             }
-            // Only update audio if choice was made
+            // Only update pictures and audio if choice was made
+            updatePictures();
             updateAudio();
             // Update stats if needed
             updateStats();
@@ -173,6 +187,40 @@ public class Client implements ActionListener {
             updateText();
         } else {
             updateButtons();
+        }
+    }
+
+    private void updatePictures() {
+        mainPanel.removeAll();
+        if (!currScene.pictures.isEmpty()) {
+            for (Picture picture : currScene.pictures) {
+                ImageIcon icon = new ImageIcon(picture.getImg());
+                JPanel imagePanel = new JPanel(new BorderLayout());
+                imagePanel.setOpaque(false);
+                JLabel imageLabel = new JLabel(icon);
+                imagePanel.add(imageLabel, evaluateIconPosition(picture.getPosition()));
+                mainPanel.add(imagePanel);
+            }
+        }
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+    private String evaluateIconPosition(String position) {
+        switch (position) {
+            case "center":
+                return BorderLayout.CENTER;
+            case "top":
+                return BorderLayout.NORTH;
+            case "bottom":
+                return BorderLayout.SOUTH;
+            case "left":
+                return BorderLayout.WEST;
+            case "right":
+                return BorderLayout.EAST;
+            default:
+                System.out.println("Invalid position, setting to center: " + position);
+                return BorderLayout.CENTER;
         }
     }
 
