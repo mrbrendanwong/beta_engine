@@ -224,6 +224,7 @@ public class Client implements ActionListener {
                 // Start the timer only when choices appear
                 int limit = currScene.timer.getLimit();
                 String timeoutScene = currScene.timer.getNextScene();
+                count = 0;
 
                 timer = new Timer(1000, new ActionListener() {
                     @Override
