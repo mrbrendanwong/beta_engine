@@ -81,6 +81,7 @@ public class Client implements ActionListener {
         // Set main panel
         mainPanel.setLayout(new BorderLayout());
         layeredPane = new JLayeredPane();
+        // TODO for some reason i need to set a layout, when the docs don't say i do
         layeredPane.setLayout(new OverlayLayout(layeredPane));
         mainPanel.add(layeredPane);
 
@@ -201,6 +202,9 @@ public class Client implements ActionListener {
         if (!currScene.pictureFilePositionMap.isEmpty()) {
             for (Map.Entry<String, String> pictureEntry : currScene.pictureFilePositionMap.entrySet()) {
                 try {
+                    // in order to get the positioning working with the layers
+                    // have to create a new transparent panel for every picture
+                    // and set the picture's position in every panel
                     BufferedImage img = ImageIO.read(new File(pictureEntry.getKey()));
                     ImageIcon icon = new ImageIcon(img);
                     JPanel imagePanel = new JPanel(new BorderLayout());
