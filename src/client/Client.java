@@ -18,6 +18,8 @@ import java.util.List;
 public class Client implements ActionListener {
     private int NUM_BUTTONS = 4;
     private Font FONT_STYLE = new Font("Courier New", Font.PLAIN, 16);
+    private Color BG_COLOR = Color.BLACK;
+    private Color TEXT_COLOR = Color.WHITE;
 
     private Game game;
     private Scene currScene;
@@ -55,13 +57,13 @@ public class Client implements ActionListener {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         statusPanel = new JPanel();
-        statusPanel.setBackground(Color.BLACK);
+        statusPanel.setBackground(BG_COLOR);
 
         mainPanel = new JPanel();
         mainPanel.setBackground(Color.LIGHT_GRAY);
 
         interactionPanel = new JPanel();
-        interactionPanel.setBackground(Color.BLACK);
+        interactionPanel.setBackground(BG_COLOR);
 
 
         // Set status panel
@@ -69,13 +71,13 @@ public class Client implements ActionListener {
 
         if (Game.stringStats.size() != 0 || Game.numberStats.size() != 0) {
             statsLabel = new JLabel("", SwingConstants.CENTER);
-            statsLabel.setForeground(Color.WHITE);
+            statsLabel.setForeground(TEXT_COLOR);
             statsLabel.setFont(FONT_STYLE);
             statusPanel.add(statsLabel, BorderLayout.CENTER);
         }
         // TODO if there is a timer, initialize timerLabel
         timer = new JLabel("", SwingConstants.CENTER);
-        timer.setForeground(Color.WHITE);
+        timer.setForeground(TEXT_COLOR);
         timer.setFont(FONT_STYLE);
         statusPanel.add(timer, BorderLayout.SOUTH);
         timer.setText("Time remaining: 30");
@@ -101,7 +103,7 @@ public class Client implements ActionListener {
 
         // Set the text panel
         textPanel = new JPanel();
-        textPanel.setBackground(Color.BLACK);
+        textPanel.setBackground(BG_COLOR);
 
         List<Color> colorList = Arrays.asList(new Color(53,133,255),
                 new Color(1, 102, 255),
@@ -112,8 +114,8 @@ public class Client implements ActionListener {
         nextButton = new JButton("Next");
         nextButton.setActionCommand(String.format("%d", -1));
         nextButton.addActionListener(this);
-        nextButton.setBackground(Color.BLUE);
-        nextButton.setForeground(Color.WHITE);
+        nextButton.setBackground(colorList.get(3));
+        nextButton.setForeground(TEXT_COLOR);
         nextButton.setFont(FONT_STYLE);
         nextButton.setBorder(BorderFactory.createEmptyBorder());
         nextButton.setFocusable(false);
@@ -123,7 +125,7 @@ public class Client implements ActionListener {
             JButton choiceButton = new JButton();
             choiceButton.setFont(FONT_STYLE);
             choiceButton.setBackground(colorList.get(i));
-            choiceButton.setForeground(Color.WHITE);
+            choiceButton.setForeground(TEXT_COLOR);
             choiceButton.setBorder(BorderFactory.createEmptyBorder());
             choiceButton.setFocusable(false);
 
@@ -208,7 +210,7 @@ public class Client implements ActionListener {
         textPanel.removeAll();
 
         JLabel textLabel = new JLabel(currScene.texts.get(currTextPointer));
-        textLabel.setForeground(Color.WHITE);
+        textLabel.setForeground(TEXT_COLOR);
         textLabel.setFont(FONT_STYLE);
         textLabel.setBorder(BorderFactory.createEmptyBorder());
 
