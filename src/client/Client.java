@@ -29,10 +29,9 @@ public class Client implements ActionListener {
     private JPanel interactionPanel;
     private JButton nextButton;
     private JLabel statsLabel;
-    private JLabel timer; // TODO
+    private JLabel countdown;
     private List<JButton> choiceButtons = new ArrayList<>();
 
-    private JPanel timerPanel;
     private Timer timer;
     private int count = 0;
 
@@ -73,9 +72,9 @@ public class Client implements ActionListener {
             statusPanel.add(statsLabel, BorderLayout.CENTER);
         }
         // TODO if there is a timer, initialize timerLabel
-        timer = new JLabel("", SwingConstants.CENTER);
-        statusPanel.add(timer, BorderLayout.SOUTH);
-        timer.setText("Time remaining: 30");
+        countdown = new JLabel("", SwingConstants.CENTER);
+        statusPanel.add(countdown, BorderLayout.SOUTH);
+        //timer.setText("Time remaining: 30");
 
         // Set status and interaction panel sizes
         statusPanel.setMinimumSize(new Dimension(0, 50));
@@ -101,10 +100,6 @@ public class Client implements ActionListener {
         nextButton = new JButton("Next");
         nextButton.setActionCommand(String.format("%d", -1));
         nextButton.addActionListener(this);
-
-        // Create timer
-        timerPanel = new JPanel();
-        statusPanel.add(timerPanel);
 
         // Create choiceButtons
         for (int i = 0; i < NUM_BUTTONS; i++) {
@@ -245,18 +240,14 @@ public class Client implements ActionListener {
                 int limit = currScene.timer.getLimit();
                 String timeoutScene = currScene.timer.getNextScene();
 
-                JLabel label = new JLabel(Integer.toString(limit));
-                timerPanel.add(label);
                 timer = new Timer(1000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (count < limit) {
-                            label.setText(Integer.toString(limit - count));
+                            countdown.setText("Timer: " + Integer.toString(limit - count));
                         } else {
                             ((Timer) (e.getSource())).stop();
-                            timerPanel.removeAll();
-                            timerPanel.revalidate();
-                            timerPanel.repaint();
+                            countdown.setText("");
                             System.out.println("NOW YOU FUCKED UP");
 
                             // Force the next scene
@@ -273,10 +264,8 @@ public class Client implements ActionListener {
             // No timer on this scene, clear it
             if (timer != null) {
                 timer.stop();
-                timerPanel.removeAll();
-                timerPanel.revalidate();
-                timerPanel.repaint();
             }
+            countdown.setText("");
         }
     }
 
