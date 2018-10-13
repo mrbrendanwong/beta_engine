@@ -5,14 +5,18 @@ import components.Game;
 import components.Scene;
 import lib.Node;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Client implements ActionListener {
     private int NUM_BUTTONS = 4;
@@ -25,6 +29,7 @@ public class Client implements ActionListener {
     private JFrame frame;
     private JPanel statusPanel;
     private JPanel mainPanel;
+    private JLayeredPane layeredPane;
     private JPanel interactionPanel;
     private JPanel textPanel;
     private JButton nextButton;
@@ -73,15 +78,23 @@ public class Client implements ActionListener {
         statusPanel.add(timer, BorderLayout.SOUTH);
         timer.setText("Time remaining: 30");
 
+        // Set main panel
+        mainPanel.setLayout(new BorderLayout());
+        layeredPane = new JLayeredPane();
+        layeredPane.setLayout(new BorderLayout());
+        layeredPane.setBackground(Color.RED);
+        mainPanel.add(layeredPane);
+
+        // Set interaction panel
+        GridLayout buttonLayout = new GridLayout(2, 2);
+        interactionPanel.setLayout(buttonLayout);
+
         // Set status and interaction panel sizes
         statusPanel.setMinimumSize(new Dimension(0, 50));
         interactionPanel.setMinimumSize(new Dimension(0, 200));
 
         statusPanel.setPreferredSize(statusPanel.getMinimumSize());
         interactionPanel.setPreferredSize(interactionPanel.getMinimumSize());
-
-        GridLayout buttonLayout = new GridLayout(2, 2);
-        interactionPanel.setLayout(buttonLayout);
 
         frame.add(statusPanel, BorderLayout.NORTH);
         frame.add(mainPanel, BorderLayout.CENTER);
@@ -107,6 +120,11 @@ public class Client implements ActionListener {
 
         // Set start scene to the current scene
         currScene = game.startScene;
+
+        // Add starting pictures
+        updatePictures();
+
+        // Add starting music
         if (currScene.bgmFile != null) playAudio(currScene.bgmFile, true);
         if (currScene.soundFile != null) playAudio(currScene.soundFile, false);
 
@@ -156,7 +174,8 @@ public class Client implements ActionListener {
                     currScene = scene;
                 }
             }
-            // Only update audio if choice was made
+            // Only update pictures and audio if choice was made
+            updatePictures();
             updateAudio();
             // Update stats if needed
             updateStats();
@@ -173,6 +192,47 @@ public class Client implements ActionListener {
             updateText();
         } else {
             updateButtons();
+        }
+    }
+
+    private void updatePictures() {
+        mainPanel.removeAll();
+        layeredPane.removeAll();
+        int layer = 0;
+        if (!currScene.pictureFilePositionMap.isEmpty()) {
+            for (Map.Entry<String, String> pictureEntry : currScene.pictureFilePositionMap.entrySet()) {
+                try {
+                    BufferedImage img = ImageIO.read(new File(pictureEntry.getKey()));
+                    ImageIcon icon = new ImageIcon(img);
+                    JLabel imageLabel = new JLabel(icon);
+                    layeredPane.add(imageLabel, evaluateIconPosition(pictureEntry.getValue()));
+                    layeredPane.setLayer(imageLabel, layer);
+                    layer++;
+                } catch (IOException | IllegalArgumentException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        mainPanel.add(layeredPane);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+    private String evaluateIconPosition(String position) {
+        switch (position) {
+            case "center":
+                return BorderLayout.CENTER;
+            case "top":
+                return BorderLayout.NORTH;
+            case "bottom":
+                return BorderLayout.SOUTH;
+            case "left":
+                return BorderLayout.WEST;
+            case "right":
+                return BorderLayout.EAST;
+            default:
+                System.out.println("Invalid position, setting to center: " + position);
+                return BorderLayout.CENTER;
         }
     }
 
