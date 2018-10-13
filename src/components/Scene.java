@@ -3,9 +3,7 @@ package components;
 import lib.Node;
 import ui.Main;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Scene extends Node {
     public String name;
@@ -15,7 +13,7 @@ public class Scene extends Node {
 
     public String bgmFile;
     public String soundFile;
-    public HashMap<String, String> pictureFilePositionMap = new HashMap<>();
+    public Map<String, String> pictureFilePositionMap = new LinkedHashMap<>();
 
     @Override
     public void parse() {
