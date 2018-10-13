@@ -14,8 +14,20 @@ GAME:
 					"Start Game"
 				next scene: scene 1
 			picture:
-				file: "title.png"
+				file: "src/resources/hallway.jpg"
 				position: center
+			picture:
+				file: "src/resources/zac1.jpg"
+				position: top
+			picture:
+				file: "src/resources/zac2.jpg"
+				position: bottom
+			picture:
+				file: "src/resources/zac3.jpg"
+				position: left
+			picture:
+				file: "src/resources/zac4.jpg"
+				position: right
 			bgm: "src/resources/epilogue.wav"
 			sound effect: "src/resources/objection.wav"
 
@@ -29,7 +41,7 @@ GAME:
 				next scene: scene 2
 			bgm: "src/resources/epilogue.wav"
 			picture:
-				file: "school.jpeg"
+				file: "src/resources/school.jpg"
 				position: center
 
 		scene 2:
@@ -46,10 +58,10 @@ GAME:
 				next scene: scene roof 1
 			bgm: "src/resources/turnaboutsisters.wav"
 			picture:
-				file: "amy.png"
+				file: "src/resources/hallway.jpg"
 				position: center
 			picture:
-				file: "hallway.jpeg"
+				file: "src/resources/zac2.jpg"
 				position: center
 		
 		scene roof 1:
@@ -73,10 +85,10 @@ GAME:
 				text: "Make a run for it"
 				next scene: scene class 1
 			picture:
-				file: "jessica.png"
+				file: "src/resources/hallway.jpg"
 				position: center
 			picture:
-				file: "roof.jpeg"
+				file: "src/resources/zac3.jpg"
 				position: center
 		
 		scene roof 2:
@@ -100,11 +112,11 @@ GAME:
 			bgm: "src/resources/epilogue.wav"
 			sound effect: "src/resources/takethat.wav"
 			picture:
-				file: "smiling_jessica.png"
+				file: "src/resources/hallway.jpg"
 				position: center
 			picture:
-				file: "roof.jpeg"
-				position: center
+				file: "src/resources/zac3.jpg"
+				position: left
 
 		scene roof 3:
 			text:
@@ -118,7 +130,7 @@ GAME:
 				text: "Go home"
 				next scene: death friendzone
 			picture:
-				file: "roof.jpeg"
+				file: "src/resources/hallway.jpg"
 				position: center
 
 	DEATH SCENES:
@@ -127,14 +139,14 @@ GAME:
 			bgm: "src/resources/turnaboutsisters.wav"
 			sound effect: "src/resources/objection.wav"
 			picture:
-				file: "angry_jessica.png"
+				file: "src/resources/zac4.jpg"
 				position: center
 		death amy:
 			text: "Amy wants nothing to do with you!"
 			bgm: "src/resources/turnaboutsisters.wav"
 			sound effect: "src/resources/objection.wav"
 			picture:
-				file: "angry_jessica.png"
+				file: "src/resources/zac4.jpg"
 				position: center
 		death friendzone:
 			text: "Don't rush love. You'll find someone someday"
@@ -145,12 +157,12 @@ GAME:
 			bgm: "src/resources/turnaboutsisters.wav"
 			sound effect: "src/resources/objection.wav"
 			picture:
-				file: "love_jessica.png"
+				file: "src/resources/zac1.jpg"
 				position: center
 		end amy:
 			text: "Amy wants to introduce you to her parents!"
 			bgm: "src/resources/turnaboutsisters.wav"
 			sound effect: "src/resources/objection.wav"
 			picture:
-				file: "love_amy.png"
+				file: "src/resources/zac1.jpg"
 				position: center
