@@ -110,6 +110,7 @@ GAME:
                 position: center
             sound_effect: explosion.mp3
             timer: 3
+                next scene: death
 
     END_SCENES:
         end:

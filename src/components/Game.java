@@ -15,9 +15,9 @@ public class Game extends Node {
     public Scene startScene;
     public static HashMap<String, Integer> numberStats = new HashMap<>();
     public static HashMap<String, String> stringStats = new HashMap<>();
-    public List<Node> storyScenes = new ArrayList<>();
-    public List<Node> deathScenes = new ArrayList<>();
-    public List<Node> endScenes = new ArrayList<>();
+    public HashMap<String, Scene> storyScenes = new HashMap<>();
+    public HashMap<String, Scene> deathScenes = new HashMap<>();
+    public HashMap<String, Scene> endScenes = new HashMap<>();
 
 
     @Override
@@ -63,27 +63,39 @@ public class Game extends Node {
                     while(!Main.literals.contains(tokenizer.checkNext()) && !tokenizer.checkNext().equals("NO_MORE_TOKENS")) {
                         scene = new Scene();
                         scene.parse();
-                        storyScenes.add(scene);
+                        checkSceneName(scene.name);
+                        storyScenes.put(scene.name, scene);
                     }
                     break;
                 case "DEATH SCENES":
                     while(!Main.literals.contains(tokenizer.checkNext()) && !tokenizer.checkNext().equals("NO_MORE_TOKENS")) {
                         scene = new Scene();
                         scene.parse();
-                        deathScenes.add(scene);
+                        checkSceneName(scene.name);
+                        deathScenes.put(scene.name, scene);
                     }
                     break;
                 case "END SCENES":
                     while(!Main.literals.contains(tokenizer.checkNext()) && !tokenizer.checkNext().equals("NO_MORE_TOKENS")) {
                         scene = new Scene();
                         scene.parse();
-                        endScenes.add(scene);
+                        checkSceneName(scene.name);
+                        endScenes.put(scene.name, scene);
                     }
                     break;
                 default:
                     System.out.println("Invalid token: " + currToken);
                     System.exit(1);
             }
+        }
+    }
+
+    private void checkSceneName (String sceneName) {
+        if (storyScenes.containsKey(sceneName) ||
+                deathScenes.containsKey(sceneName) ||
+                endScenes.containsKey(sceneName)) {
+            System.out.println("Scene \"" + sceneName + "\" already exists!");
+            System.exit(1);
         }
     }
 }

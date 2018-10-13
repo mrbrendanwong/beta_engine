@@ -75,6 +75,7 @@ story_scenes:
       yugioh_deck.png
       position: middle
     timer: 30
+        next scene: trap_card
 
 death_scenes:
   trap_card:

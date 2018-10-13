@@ -38,6 +38,8 @@ GAME:
 				"It was your childhood friend, Amy. You've been very close to her growing up. She looks prettier for some reason"
 				"Amy: See you in class!"
 				"Amy dashes off"
+			timer: 5
+			    next scene: death jessica
 			choice:
 				text: "Go to class"
 				next scene: scene class 1
