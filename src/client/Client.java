@@ -2,8 +2,8 @@ package client;
 
 import components.Choice;
 import components.Game;
+import components.Picture;
 import components.Scene;
-import lib.Node;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -29,12 +29,15 @@ public class Client implements ActionListener {
     private JFrame frame;
     private JPanel statusPanel;
     private JPanel mainPanel;
-    private JPanel interactionPanel;
     private JPanel textPanel;
+    private JPanel interactionPanel;
     private JButton nextButton;
     private JLabel statsLabel;
-    private JLabel timer; // TODO
+    private JLabel countdown;
     private List<JButton> choiceButtons = new ArrayList<>();
+
+    private Timer timer;
+    private int count = 0;
 
     // CurrBGM
     private String currBgm;
@@ -75,12 +78,18 @@ public class Client implements ActionListener {
             statsLabel.setFont(FONT_STYLE);
             statusPanel.add(statsLabel, BorderLayout.CENTER);
         }
-        // TODO if there is a timer, initialize timerLabel
-        timer = new JLabel("", SwingConstants.CENTER);
-        timer.setForeground(TEXT_COLOR);
-        timer.setFont(FONT_STYLE);
-        statusPanel.add(timer, BorderLayout.SOUTH);
-        timer.setText("Time remaining: 30");
+
+        countdown = new JLabel("", SwingConstants.CENTER);
+        countdown.setForeground(TEXT_COLOR);
+        countdown.setFont(FONT_STYLE);
+        statusPanel.add(countdown, BorderLayout.SOUTH);
+
+        // Set main panel
+        mainPanel.setLayout(new OverlayLayout(mainPanel));
+
+        // Set interaction panel
+        GridLayout buttonLayout = new GridLayout(2, 2);
+        interactionPanel.setLayout(buttonLayout);
 
         // Set status and interaction panel sizes
         statusPanel.setMinimumSize(new Dimension(0, 50));
@@ -88,9 +97,6 @@ public class Client implements ActionListener {
 
         statusPanel.setPreferredSize(statusPanel.getMinimumSize());
         interactionPanel.setPreferredSize(interactionPanel.getMinimumSize());
-
-        GridLayout buttonLayout = new GridLayout(2, 2);
-        interactionPanel.setLayout(buttonLayout);
 
         frame.add(statusPanel, BorderLayout.NORTH);
         frame.add(mainPanel, BorderLayout.CENTER);
@@ -136,12 +142,17 @@ public class Client implements ActionListener {
 
         // Set start scene to the current scene
         currScene = game.startScene;
+
+        // Add starting pictures
+        updatePictures();
+
+        // Add starting music
         if (currScene.bgmFile != null) playAudio(currScene.bgmFile, true);
         if (currScene.soundFile != null) playAudio(currScene.soundFile, false);
 
 
         // Add text and choiceButtons and stuff
-        updateFrame(-1);
+        updateFrame("", -1);
         updateStats();
     }
 
@@ -150,58 +161,83 @@ public class Client implements ActionListener {
     }
 
     // Updates current elements of game on the frame
-    private void updateFrame(int choiceNum) {
-        // Current scene
-        String prevScene = currScene.name;
-        // Get next scene
-        Scene scene;
-        // Only get next scene if a choice was made
-        if (choiceNum != -1) {
-            // set new stat
-            int sceneChoiceIndex = buttonToChoiceIndex[choiceNum];
-            Choice c = currScene.choices.get(sceneChoiceIndex);
-            if (c.statString != null) {
-                c.setStat();
-            }
-
+    // Pass a sceneName to force scene change
+    private void updateFrame(String sceneName, int choiceNum) {
+        // Only get new scene if a choice was made
+        // or forced scene change
+        if (choiceNum != -1 || !sceneName.isEmpty()) {
+            String nextScene;
             // reset text pointer
             currTextPointer = 0;
-            String nextScene = currScene.choices.get(sceneChoiceIndex).next;
-            for (Node node : game.storyScenes) {
-                scene = (Scene) node;
-                if (scene.name.equals(nextScene)) {
-                    currScene = scene;
-                }
-            }
-            for (Node node : game.deathScenes) {
-                scene = (Scene) node;
-                if (scene.name.equals(nextScene)) {
-                    currScene = scene;
-                }
-            }
-            for (Node node : game.endScenes) {
-                scene = (Scene) node;
-                if (scene.name.equals(nextScene)) {
-                    currScene = scene;
-                }
-            }
-            // Only update audio if choice was made
-            updateAudio();
-            // Update stats if needed
-            updateStats();
 
-            if (prevScene.equals(currScene.name)) {
-                System.out.println("Infinite scene loop");
-                // TODO Probably show something?
-                System.exit(1);
+            if (sceneName.isEmpty()) {
+                // set new stat
+                // stats tied to choices, timeouts can't set stat
+                int sceneChoiceIndex = buttonToChoiceIndex[choiceNum];
+                Choice c = currScene.choices.get(sceneChoiceIndex);
+                if (c.statString != null) {
+                    c.setStat();
+                }
+                nextScene = currScene.choices.get(sceneChoiceIndex).next;
+            } else {
+                nextScene = sceneName;
             }
+
+            if (game.storyScenes.containsKey(nextScene)) {
+                currScene = game.storyScenes.get(nextScene);
+            } else if (game.deathScenes.containsKey(nextScene)) {
+                currScene = game.deathScenes.get(nextScene);
+            } else if (game.endScenes.containsKey(nextScene)) {
+                currScene = game.endScenes.get(nextScene);
+            }
+
+            // Update stats pictures, audio, and stats upon choice being made
+            updatePictures();
+            updateAudio();
+            updateStats();
         }
 
         // if there's still text to display, then display it, if not then display the choiceButtons
         if (currTextPointer < currScene.texts.size()) {
             updateText();
+            updateTimer(false);
         } else {
             updateButtons();
+            updateTimer(true);
+        }
+    }
+
+    private void updatePictures() {
+        mainPanel.removeAll();
+        if (!currScene.pictures.isEmpty()) {
+            for (Picture picture : currScene.pictures) {
+                ImageIcon icon = new ImageIcon(picture.getImg());
+                JPanel imagePanel = new JPanel(new BorderLayout());
+                imagePanel.setOpaque(false);
+                JLabel imageLabel = new JLabel(icon);
+                imagePanel.add(imageLabel, evaluateIconPosition(picture.getPosition()));
+                mainPanel.add(imagePanel);
+            }
+        }
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+    private String evaluateIconPosition(String position) {
+        switch (position) {
+            case "center":
+                return BorderLayout.CENTER;
+            case "top":
+                return BorderLayout.NORTH;
+            case "bottom":
+                return BorderLayout.SOUTH;
+            case "left":
+                return BorderLayout.WEST;
+            case "right":
+                return BorderLayout.EAST;
+            default:
+                System.out.println("Invalid position, setting to center: " + position);
+                return BorderLayout.CENTER;
         }
     }
 
@@ -260,9 +296,47 @@ public class Client implements ActionListener {
         interactionPanel.repaint();
     }
 
+    private void updateTimer(boolean endOfText) {
+        if (currScene.timer != null) {
+            if (endOfText) {
+                // Start the timer only when choices appear
+                int limit = currScene.timer.getLimit();
+                String timeoutScene = currScene.timer.getNextScene();
+                count = 0;
+
+                timer = new Timer(1000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (count < limit) {
+                            countdown.setText("Timer: " + Integer.toString(limit - count));
+                        } else {
+                            ((Timer) (e.getSource())).stop();
+                            countdown.setText("");
+                            System.out.println("Ran out of time");
+
+                            // Force the next scene
+                            System.out.println("Timed out, went to scene: " + timeoutScene);
+                            updateFrame(timeoutScene, -1);
+                        }
+                        count++;
+                    }
+                });
+                timer.setInitialDelay(0);
+                timer.start();
+            }
+        } else {
+            // No timer on this scene, clear it
+            if (timer != null) {
+                timer.stop();
+            }
+            countdown.setText("");
+        }
+    }
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        updateFrame(Integer.parseInt(e.getActionCommand()));
+        updateFrame("", Integer.parseInt(e.getActionCommand()));
     }
 
     private void playAudio(String audioPath, boolean isBgm) {

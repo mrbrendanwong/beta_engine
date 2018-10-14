@@ -10,12 +10,11 @@ public class Scene extends Node {
     public String name;
     public List<String> texts = new ArrayList<>();
     public List<Choice> choices = new ArrayList<>();
-    public int timer = 0;
+    public ChoiceTimer timer;
 
     public String bgmFile;
     public String soundFile;
-    public String pictureFile;
-    public String picturePosition = "center";
+    public List<Picture> pictures = new ArrayList<>();
 
     @Override
     public void parse() {
@@ -35,8 +34,13 @@ public class Scene extends Node {
                     choices.add(c);
                     break;
                 case "timer":
+                    if (timer != null) {
+                        System.out.println("Duplicate timer in scene \"" + name + "\"");
+                        System.exit(1);
+                    }
                     tokenizer.getAndCheckNext("timer");
-                    timer = Integer.parseInt(tokenizer.getNext());
+                    timer = new ChoiceTimer();
+                    timer.parse();
                     break;
                 case "bgm":
                     tokenizer.getAndCheckNext("bgm");
@@ -48,20 +52,9 @@ public class Scene extends Node {
                     break;
                 case "picture":
                     tokenizer.getAndCheckNext("picture");
-                    while (tokenizer.checkNext().equals("file") || tokenizer.checkNext().equals("position")) {
-                        switch (tokenizer.checkNext()) {
-                            case "file":
-                                tokenizer.getAndCheckNext("file");
-                                pictureFile = tokenizer.getNext();
-                                break;
-                            case "position":
-                                tokenizer.getAndCheckNext("position");
-                                picturePosition = tokenizer.getAndCheckNext("center|left|right|top|bottom");
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+                    Picture p = new Picture();
+                    p.parse();
+                    pictures.add(p);
                     break;
                 default:
                     return;
@@ -79,8 +72,7 @@ public class Scene extends Node {
                 ", timer=" + timer +
                 ", bgmFile='" + bgmFile + '\'' +
                 ", soundFile='" + soundFile + '\'' +
-                ", pictureFile='" + pictureFile + '\'' +
-                ", picturePosition='" + picturePosition + '\'' +
+                ", pictures='" + pictures + '\'' +
                 '}';
     }
 }
