@@ -4,22 +4,22 @@ import components.Choice;
 import components.Game;
 import components.Picture;
 import components.Scene;
-import lib.Node;
 
-import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Client implements ActionListener {
     private int NUM_BUTTONS = 4;
+    private Font FONT_STYLE = new Font("Courier New", Font.PLAIN, 16);
+    private Color BG_COLOR = Color.BLACK;
+    private Color TEXT_COLOR = Color.WHITE;
 
     private Game game;
     private Scene currScene;
@@ -54,29 +54,34 @@ public class Client implements ActionListener {
         // Create the JFrame
         frame = new JFrame(game.title);
         frame.pack();
-        frame.setSize(1280, 720);
+        frame.setSize(1280, 970);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        // Create and set a layout with 3 rows
-        // 1st is the status panel
-        // 2nd is the picture panel
-        // 3rd is the button and text panel
-
         statusPanel = new JPanel();
+        statusPanel.setBackground(BG_COLOR);
+
         mainPanel = new JPanel();
+        mainPanel.setBackground(Color.LIGHT_GRAY);
+
         interactionPanel = new JPanel();
+        interactionPanel.setBackground(BG_COLOR);
+
 
         // Set status panel
         statusPanel.setLayout(new BorderLayout());
 
         if (Game.stringStats.size() != 0 || Game.numberStats.size() != 0) {
             statsLabel = new JLabel("", SwingConstants.CENTER);
+            statsLabel.setForeground(TEXT_COLOR);
+            statsLabel.setFont(FONT_STYLE);
             statusPanel.add(statsLabel, BorderLayout.CENTER);
         }
 
         countdown = new JLabel("", SwingConstants.CENTER);
+        countdown.setForeground(TEXT_COLOR);
+        countdown.setFont(FONT_STYLE);
         statusPanel.add(countdown, BorderLayout.SOUTH);
 
         // Set main panel
@@ -97,20 +102,40 @@ public class Client implements ActionListener {
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.add(interactionPanel, BorderLayout.SOUTH);
 
-        interactionPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        interactionPanel.setBorder(BorderFactory.createEmptyBorder());
         if (timer != null || statsLabel != null) {
-            statusPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+            statusPanel.setBorder(BorderFactory.createEmptyBorder());
         }
 
-        // Create text and next button
+        // Set the text panel
         textPanel = new JPanel();
+        textPanel.setBackground(BG_COLOR);
+
+        List<Color> colorList = Arrays.asList(new Color(53,133,255),
+                new Color(1, 102, 255),
+                new Color(0,87,218),
+                new Color(0, 70,176));
+
+        // Create the button that says "Next"
         nextButton = new JButton("Next");
         nextButton.setActionCommand(String.format("%d", -1));
         nextButton.addActionListener(this);
+        nextButton.setBackground(colorList.get(3));
+        nextButton.setForeground(TEXT_COLOR);
+        nextButton.setFont(FONT_STYLE);
+        nextButton.setBorder(BorderFactory.createEmptyBorder());
+        nextButton.setFocusable(false);
 
         // Create choiceButtons
         for (int i = 0; i < NUM_BUTTONS; i++) {
-            choiceButtons.add(new JButton());
+            JButton choiceButton = new JButton();
+            choiceButton.setFont(FONT_STYLE);
+            choiceButton.setBackground(colorList.get(i));
+            choiceButton.setForeground(TEXT_COLOR);
+            choiceButton.setBorder(BorderFactory.createEmptyBorder());
+            choiceButton.setFocusable(false);
+
+            choiceButtons.add(choiceButton);
             choiceButtons.get(i).setActionCommand(String.format("%d", i));
             choiceButtons.get(i).addActionListener(this);
         }
@@ -219,7 +244,13 @@ public class Client implements ActionListener {
     private void updateText() {
         interactionPanel.removeAll();
         textPanel.removeAll();
-        textPanel.add(new JLabel(currScene.texts.get(currTextPointer)));
+
+        JLabel textLabel = new JLabel(currScene.texts.get(currTextPointer));
+        textLabel.setForeground(TEXT_COLOR);
+        textLabel.setFont(FONT_STYLE);
+        textLabel.setBorder(BorderFactory.createEmptyBorder());
+
+        textPanel.add(textLabel);
         interactionPanel.add(textPanel);
         interactionPanel.add(nextButton);
         interactionPanel.revalidate();
@@ -281,7 +312,7 @@ public class Client implements ActionListener {
                         } else {
                             ((Timer) (e.getSource())).stop();
                             countdown.setText("");
-                            System.out.println("NOW YOU FUCKED UP");
+                            System.out.println("Ran out of time");
 
                             // Force the next scene
                             System.out.println("Timed out, went to scene: " + timeoutScene);

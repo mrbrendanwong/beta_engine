@@ -3,9 +3,7 @@ package components;
 import lib.Node;
 import ui.Main;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Game extends Node {
     public String title;
