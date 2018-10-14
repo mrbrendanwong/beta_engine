@@ -54,7 +54,7 @@ public class Client implements ActionListener {
         // Create the JFrame
         frame = new JFrame(game.title);
         frame.pack();
-        frame.setSize(1280, 720);
+        frame.setSize(1280, 970);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
