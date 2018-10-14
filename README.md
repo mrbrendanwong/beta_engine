@@ -6,6 +6,9 @@ A DSL that allows a user to create their own choose-your-own-adventure game. Cre
 
 Built on Java 8 with JDK version 1.8.0_181
 
+## Try it out!
+Download the .jar [here](https://drive.google.com/open?id=1qwTiAtOuj0PNbt0xrk85thoUz5RO7cv1)!
+
 ## Game Features
 * Start screens: display the title of your game in style
 * Multiple end screens: construct different ending for different player choices
