@@ -1,6 +1,6 @@
 GAME:
 	title: "The Real High School Musical"
-	description: "Live your High School Music Dreams"
+	description: "Live your High School Musical Dreams"
 	stats:
 		Love Meter: 0
 	START SCENE:
@@ -92,7 +92,7 @@ GAME:
 				"doesn't earn a living in real life"
 				"Friction has developed in their relationship"
 				"Vanessa: Our lives suck! And not like succ, but suck!"
-				"Vanessa: Zac, i'm starting to this marriage might not work out..."
+				"Vanessa: Zac, I'm starting to think this marriage might not work out..."
 			choice:
 				text: "Werk it out"
 				next scene: end manly
