@@ -10,7 +10,7 @@ public class Scene extends Node {
     public String name;
     public List<String> texts = new ArrayList<>();
     public List<Choice> choices = new ArrayList<>();
-    public int timer = 0;
+    public ChoiceTimer timer;
 
     public String bgmFile;
     public String soundFile;
@@ -34,8 +34,13 @@ public class Scene extends Node {
                     choices.add(c);
                     break;
                 case "timer":
+                    if (timer != null) {
+                        System.out.println("Duplicate timer in scene \"" + name + "\"");
+                        System.exit(1);
+                    }
                     tokenizer.getAndCheckNext("timer");
-                    timer = Integer.parseInt(tokenizer.getNext());
+                    timer = new ChoiceTimer();
+                    timer.parse();
                     break;
                 case "bgm":
                     tokenizer.getAndCheckNext("bgm");

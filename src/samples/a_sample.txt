@@ -16,6 +16,7 @@ GAME:
 				text:"I'm busy this weekend, sorry."
 				next scene: car-death-1
 			timer: 10
+			    next scene: car-death-1
 			bgm: "waifu-theme.mp4"
 			picture:
 				file: "bird-school.jpg"

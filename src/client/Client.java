@@ -29,12 +29,15 @@ public class Client implements ActionListener {
     private JFrame frame;
     private JPanel statusPanel;
     private JPanel mainPanel;
-    private JPanel interactionPanel;
     private JPanel textPanel;
+    private JPanel interactionPanel;
     private JButton nextButton;
     private JLabel statsLabel;
-    private JLabel timer; // TODO
+    private JLabel countdown;
     private List<JButton> choiceButtons = new ArrayList<>();
+
+    private Timer timer;
+    private int count = 0;
 
     // CurrBGM
     private String currBgm;
@@ -72,10 +75,9 @@ public class Client implements ActionListener {
             statsLabel = new JLabel("", SwingConstants.CENTER);
             statusPanel.add(statsLabel, BorderLayout.CENTER);
         }
-        // TODO if there is a timer, initialize timerLabel
-        timer = new JLabel("", SwingConstants.CENTER);
-        statusPanel.add(timer, BorderLayout.SOUTH);
-        timer.setText("Time remaining: 30");
+
+        countdown = new JLabel("", SwingConstants.CENTER);
+        statusPanel.add(countdown, BorderLayout.SOUTH);
 
         // Set main panel
         mainPanel.setLayout(new OverlayLayout(mainPanel));
@@ -125,7 +127,7 @@ public class Client implements ActionListener {
 
 
         // Add text and choiceButtons and stuff
-        updateFrame(-1);
+        updateFrame("", -1);
         updateStats();
     }
 
@@ -134,59 +136,49 @@ public class Client implements ActionListener {
     }
 
     // Updates current elements of game on the frame
-    private void updateFrame(int choiceNum) {
-        // Current scene
-        String prevScene = currScene.name;
-        // Get next scene
-        Scene scene;
-        // Only get next scene if a choice was made
-        if (choiceNum != -1) {
-            // set new stat
-            int sceneChoiceIndex = buttonToChoiceIndex[choiceNum];
-            Choice c = currScene.choices.get(sceneChoiceIndex);
-            if (c.statString != null) {
-                c.setStat();
-            }
-
+    // Pass a sceneName to force scene change
+    private void updateFrame(String sceneName, int choiceNum) {
+        // Only get new scene if a choice was made
+        // or forced scene change
+        if (choiceNum != -1 || !sceneName.isEmpty()) {
+            String nextScene;
             // reset text pointer
             currTextPointer = 0;
-            String nextScene = currScene.choices.get(sceneChoiceIndex).next;
-            for (Node node : game.storyScenes) {
-                scene = (Scene) node;
-                if (scene.name.equals(nextScene)) {
-                    currScene = scene;
+
+            if (sceneName.isEmpty()) {
+                // set new stat
+                // stats tied to choices, timeouts can't set stat
+                int sceneChoiceIndex = buttonToChoiceIndex[choiceNum];
+                Choice c = currScene.choices.get(sceneChoiceIndex);
+                if (c.statString != null) {
+                    c.setStat();
                 }
+                nextScene = currScene.choices.get(sceneChoiceIndex).next;
+            } else {
+                nextScene = sceneName;
             }
-            for (Node node : game.deathScenes) {
-                scene = (Scene) node;
-                if (scene.name.equals(nextScene)) {
-                    currScene = scene;
-                }
+
+            if (game.storyScenes.containsKey(nextScene)) {
+                currScene = game.storyScenes.get(nextScene);
+            } else if (game.deathScenes.containsKey(nextScene)) {
+                currScene = game.deathScenes.get(nextScene);
+            } else if (game.endScenes.containsKey(nextScene)) {
+                currScene = game.endScenes.get(nextScene);
             }
-            for (Node node : game.endScenes) {
-                scene = (Scene) node;
-                if (scene.name.equals(nextScene)) {
-                    currScene = scene;
-                }
-            }
-            // Only update pictures and audio if choice was made
+
+            // Update stats pictures, audio, and stats upon choice being made
             updatePictures();
             updateAudio();
-            // Update stats if needed
             updateStats();
-
-            if (prevScene.equals(currScene.name)) {
-                System.out.println("Infinite scene loop");
-                // TODO Probably show something?
-                System.exit(1);
-            }
         }
 
         // if there's still text to display, then display it, if not then display the choiceButtons
         if (currTextPointer < currScene.texts.size()) {
             updateText();
+            updateTimer(false);
         } else {
             updateButtons();
+            updateTimer(true);
         }
     }
 
@@ -273,9 +265,47 @@ public class Client implements ActionListener {
         interactionPanel.repaint();
     }
 
+    private void updateTimer(boolean endOfText) {
+        if (currScene.timer != null) {
+            if (endOfText) {
+                // Start the timer only when choices appear
+                int limit = currScene.timer.getLimit();
+                String timeoutScene = currScene.timer.getNextScene();
+                count = 0;
+
+                timer = new Timer(1000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (count < limit) {
+                            countdown.setText("Timer: " + Integer.toString(limit - count));
+                        } else {
+                            ((Timer) (e.getSource())).stop();
+                            countdown.setText("");
+                            System.out.println("NOW YOU FUCKED UP");
+
+                            // Force the next scene
+                            System.out.println("Timed out, went to scene: " + timeoutScene);
+                            updateFrame(timeoutScene, -1);
+                        }
+                        count++;
+                    }
+                });
+                timer.setInitialDelay(0);
+                timer.start();
+            }
+        } else {
+            // No timer on this scene, clear it
+            if (timer != null) {
+                timer.stop();
+            }
+            countdown.setText("");
+        }
+    }
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        updateFrame(Integer.parseInt(e.getActionCommand()));
+        updateFrame("", Integer.parseInt(e.getActionCommand()));
     }
 
     private void playAudio(String audioPath, boolean isBgm) {
