@@ -1,0 +1,92 @@
+GAME:
+	title: "The Real High School Musical"
+	description: "Live your High School Music Dreams"
+	stats:
+		Love Meter: 0
+	START SCENE:
+		start:
+			text:
+				"This game lets you live how High School Musical should've really turned out"
+				"Let's face it, HSM2 and HSM3 just weren't that good"
+				"Even mah boi Zac has repressed his memories of it"
+				"Now let's begin the Start of Something New"
+			choice:
+				text:
+					"Start something new"
+				next scene: scene 1
+	
+	STORY SCENES:
+		scene 1:
+			text:
+				"Vanessa: Zac! It's time for you to choose between me or basketball!"
+				"Vanessa: You can either continue to handle balls, or have me handle yours!"
+				"Vanessa: Your choice!"
+			choice:
+				text: "Choose Vanessa cuz say no 2 blu ballz"
+				next scene: "scene v1"
+				change stat: "Love Meter + 1"
+			choice:
+				text: "Ball is lyfe"
+				next scene: "scene b1"
+			timer: 5
+				next scene: death timeout
+
+		scene b1:
+			text:
+				"After ditching Vaness, Zac went on to do great thing"
+				"He went on to be drafted into the NBA"
+				"Through his consecutive championship victories, he outshined Lebron and Steph"
+				"They now call him the second coming of Michael Jordan"
+				"He went on to sign a deal with Nike to create the Air Efrons"
+				"After his short, but lucrative career, he finally decided that ball wasn't life"
+				"He wanted to ballin' in life"
+				"Now it's just a matter of what to do with his oodles of cash"
+			choice: 
+				text: "Blow it all to get Vanessa back"
+				next scene: scene v2a
+			choice:
+				text: "Live life in luxury"
+				next scene: end rich
+
+		scene v1:
+			text:
+				"Vanessa: I'm so glad we're together"
+				"Vanessa: I'd love to elope right now, but school's important!"
+				"Vanessa: What should we do?"
+			choice:
+				text: "Ditch school and elope"
+				next scene: scene v2a
+			choice:
+				text: "Continue with school"
+				next scene: death hsm2hsm3
+		scene v2a:
+			text:
+				"Vanessa and Zac eloped, but were dirt poor"
+				"Turns out randomly bursting out into dramatic song and dance"
+				"doesn't earn a living in real life"
+				"Friction has developed in their relationship"
+				"Vanessa: Our lives suck! And not like succ, but suck!"
+				"Vanessa: Zac, i'm starting to this marriage might not work out..."
+			choice:
+				text: "Werk it out"
+				next scene: end manly
+				conditional: "Love Meter > 0"
+			choice:
+				text: "Break if off and date other girls cuz u kno ur hot"
+				next scene: end rich
+				conditional: "Love Meter < 1"
+
+	DEATH SCENES:
+		death hsm2hsm3:
+			text: 
+				"Zac and Vanessa continued with high school, which sucked"
+				"They eventually made two more movies with good songs, but were terrible otherwise"
+		death timeout:
+			text:
+				"Fam, the ladies hate indecisive men"
+				"Make a choice quick"
+	END SCENES:
+		end rich:
+			text: "Zac went on to live his life like a playboi and eventually became friends with Drake"
+		end manly:
+			text: "Wow, u a good dude."
