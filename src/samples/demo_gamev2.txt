@@ -47,7 +47,7 @@ GAME:
 			text:
 				"After ditching Vanessa, Zac went on to do great things"
 				"He went on to be drafted into the NBA"
-				"Through his consecutive championship victories, he outshined Lebron and Steph"
+				"Through his consecutive championship victories, he outshined LeBron and Steph"
 				"They now call him the second coming of Michael Jordan"
 				"He went on to sign a deal with Nike to create the Air Efrons"
 				"After his short, but lucrative career, he finally decided that ball wasn't life"
