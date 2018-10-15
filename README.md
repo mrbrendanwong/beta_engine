@@ -23,23 +23,28 @@ Download the .jar [here](https://drive.google.com/open?id=1qwTiAtOuj0PNbt0xrk85t
 
 ## Grammar
 ```
-PROGRAM 		::= GAME_SETTINGS START_SCENE STORY_SCENES DEATH_SCENES END_SCENES
-GAME_SETTINGS	::= "GAME:" "title:" STRING "description:" STRING STATS
-STATS			::= "stats" STAT*
-STAT			::= NAME [INTEGER|STRING]
+PROGRAM         ::= GAME_SETTINGS START_SCENE STORY_SCENES DEATH_SCENES END_SCENES
+GAME_SETTINGS   ::= "GAME:" GAME_PART*
+GAME_PART       ::= "title:" STRING | "description:" STRING | STATS
+STATS           ::= "stats:" STAT*
+STAT            ::= NAME":" [INTEGER|STRING]
 START_SCENE     ::= "START SCENE:" NAME CHOICE* [TEXT|BGM|SOUND_EFFECT|PICTURE]*
-STORY_SCENES	::= "STORY SCENES:" STORY_SCENE*
-STORY_SCENE		::= NAME CHOICE* [TEXT|TIMER|SOUND_EFFECT|PICTURE]*
-DEATH_SCENES	::= "DEATH SCENES:" DEATH_END_SCENE*
-END_SCENES		::= "END SCENES:" DEATH_END_SCENE*
-DEATH_END_SCENE	::= NAME [TEXT|BGM|SOUND_EFFECT|PICTURE]*
-TEXT			::= "text:" STRING*
-CHOICE			::= "choice:" TEXT "next scene:" STRING
-TIMER			::= "timer:" INTEGER
-BGM				::= "bgm:" STRING
-SOUND_EFFECT	::= "sound effect:" STRING
-PICTURE			::= "picture:" "file:" STRING "position:" ["top"|"bottom"|"left"|"right"|"center"]
-NAME			::= [aA-zZ]*[0-9]*":"
+STORY_SCENES    ::= "STORY SCENES:" STORY_SCENE*
+STORY_SCENE     ::= NAME":" CHOICE* [TEXT|TIMER|SOUND_EFFECT|PICTURE]*
+DEATH_SCENES    ::= "DEATH SCENES:" DEATH_END_SCENE*
+END_SCENES      ::= "END SCENES:" DEATH_END_SCENE*
+DEATH_END_SCENE ::= NAME":" [TEXT|BGM|SOUND_EFFECT|PICTURE]*
+TEXT            ::= "text:" STRING*
+CHOICE          ::= "choice:" TEXT "next scene:" STRING CONDITIONAL CHANGE_STAT
+TIMER           ::= "timer:" INTEGER "next scene:" NAME
+BGM             ::= "bgm:" STRING
+SOUND_EFFECT    ::= "sound effect:" STRING
+PICTURE         ::= "picture:" "file:" STRING "position:" ["top"|"bottom"|"left"|"right"|"center"]
+NAME            ::= [aA-zZ]*[0-9]*
+CONDITIONAL     ::= conditional: "NAME COMPARISON_OP [INTEGER|STRING]"
+CHANGE_STAT     ::= change_stat: "NAME MATH_OP [INTEGER|STRING]"
+COMPARISON_OP   ::= == | >= | <= | > | <
+MATH_OP         ::= = | + | - | * | /
 ```
 
 ## Coding Syntax
