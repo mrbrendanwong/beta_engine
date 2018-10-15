@@ -24,15 +24,16 @@ Download the .jar [here](https://drive.google.com/open?id=1qwTiAtOuj0PNbt0xrk85t
 ## Grammar
 ```
 PROGRAM 		::= GAME_SETTINGS START_SCENE STORY_SCENES DEATH_SCENES END_SCENES
-GAME_SETTINGS	::= "GAME:" "title:" STRING "description:" STRING [STATS]
-STATS			::= [STAT*]
+GAME_SETTINGS	::= "GAME:" "title:" STRING "description:" STRING STATS
+STATS			::= "stats" STAT*
 STAT			::= NAME [INTEGER|STRING]
-START_SCENE     ::= NAME CHOICES [TEXT|BGM|SOUND_EFFECT|PICTURE]*
-STORY_SCENE		::= NAME CHOICES [TEXT|TIMER|SOUND_EFFECT|PICTURE]*
-DEATH_SCENE		::= NAME [TEXT|BGM|SOUND_EFFECT|PICTURE]*
-END_SCENE		::= NAME [TEXT|BGM|SOUND_EFFECT|PICTURE]*
+START_SCENE     ::= "START SCENE:" NAME CHOICE* [TEXT|BGM|SOUND_EFFECT|PICTURE]*
+STORY_SCENES	::= "STORY SCENES:" STORY_SCENE*
+STORY_SCENE		::= NAME CHOICE* [TEXT|TIMER|SOUND_EFFECT|PICTURE]*
+DEATH_SCENES	::= "DEATH SCENES:" DEATH_END_SCENE*
+END_SCENES		::= "END SCENES:" DEATH_END_SCENE*
+DEATH_END_SCENE	::= NAME [TEXT|BGM|SOUND_EFFECT|PICTURE]*
 TEXT			::= "text:" STRING*
-CHOICES			::= [CHOICE*]
 CHOICE			::= "choice:" TEXT "next scene:" STRING
 TIMER			::= "timer:" INTEGER
 BGM				::= "bgm:" STRING
@@ -86,7 +87,7 @@ DEATH SCENES:
 			file: "<file name>"
 			position:<string [top|bottom|left|right|center]>
 END SCENES:
-<end scene name>:
+	<end scene name>:
 		text:
 			*"<string>"
 		bgm: "<file name>"	(optional)
