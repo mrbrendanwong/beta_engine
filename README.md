@@ -21,6 +21,26 @@ Download the .jar [here](https://drive.google.com/open?id=1qwTiAtOuj0PNbt0xrk85t
 * Constrained image positioning: Layer and position your image on screen left, right, top, bottom, center
 * BGM and sound effects: shape the atmosphere with unique background music and sound effects for every screen
 
+## Grammar
+```
+PROGRAM 		::= GAME_SETTINGS START_SCENE STORY_SCENES DEATH_SCENES END_SCENES
+GAME_SETTINGS	::= "GAME:" "title:" STRING "description:" STRING [STATS]
+STATS			::= [STAT*]
+STAT			::= NAME [INTEGER|STRING]
+START_SCENE     ::= NAME CHOICES [TEXT|BGM|SOUND_EFFECT|PICTURE]*
+STORY_SCENE		::= NAME CHOICES [TEXT|TIMER|SOUND_EFFECT|PICTURE]*
+DEATH_SCENE		::= NAME [TEXT|BGM|SOUND_EFFECT|PICTURE]*
+END_SCENE		::= NAME [TEXT|BGM|SOUND_EFFECT|PICTURE]*
+TEXT			::= "text:" STRING*
+CHOICES			::= [CHOICE*]
+CHOICE			::= "choice:" TEXT "next scene:" STRING
+TIMER			::= "timer:" INTEGER
+BGM				::= "bgm:" STRING
+SOUND_EFFECT	::= "sound effect:" STRING
+PICTURE			::= "picture:" "file:" STRING "position:" ["top"|"bottom"|"left"|"right"|"center"]
+NAME			::= [aA-zZ]*[0-9]*":"
+```
+
 ## Coding Syntax
 ```
 GAME:
