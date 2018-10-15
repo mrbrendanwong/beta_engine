@@ -1,6 +1,6 @@
 GAME:
 	title: "The Real High School Musical"
-	description: "Live your High School Music Dreams"
+	description: "Live your High School Musical Dreams"
 	stats:
 		Love Meter: 0
 	START SCENE:
@@ -47,7 +47,7 @@ GAME:
 			text:
 				"After ditching Vanessa, Zac went on to do great things"
 				"He went on to be drafted into the NBA"
-				"Through his consecutive championship victories, he outshined Lebron and Steph"
+				"Through his consecutive championship victories, he outshined LeBron and Steph"
 				"They now call him the second coming of Michael Jordan"
 				"He went on to sign a deal with Nike to create the Air Efrons"
 				"After his short, but lucrative career, he finally decided that ball wasn't life"
@@ -92,7 +92,7 @@ GAME:
 				"doesn't earn a living in real life"
 				"Friction has developed in their relationship"
 				"Vanessa: Our lives suck! And not like succ, but suck!"
-				"Vanessa: Zac, i'm starting to this marriage might not work out..."
+				"Vanessa: Zac, I'm starting to think this marriage might not work out..."
 			choice:
 				text: "Werk it out"
 				next scene: end manly
