@@ -20,7 +20,7 @@ public class Picture extends Node {
                     tokenizer.getAndCheckNext("file");
                     fileToken = tokenizer.getNext();
                     File file = new File(fileToken);
-                    checkFile(file);
+                    checkFileExist(file);
                     readImage(file);
                     break;
                 case "position":
@@ -41,17 +41,20 @@ public class Picture extends Node {
         return position;
     }
 
+    // For debugging
     public String toString() {
         return "(" + fileToken + ", " + position + ")";
     }
 
-    private void checkFile(File file) {
+    // To make sure the file exists before trying to read it
+    private void checkFileExist(File file) {
         if (!file.exists()) {
             System.out.println("\"" + fileToken + "\" doesn't exist");
             System.exit(1);
         }
     }
 
+    // Read the file, and if the result is null, quit parsing
     private void readImage(File file) {
         try {
             img = ImageIO.read(file);
