@@ -88,6 +88,7 @@ public class Game extends Node {
         }
     }
 
+    // Checks if the scene name already exists in the story, death, and end scenes
     private void checkSceneName (String sceneName) {
         if (storyScenes.containsKey(sceneName) ||
                 deathScenes.containsKey(sceneName) ||

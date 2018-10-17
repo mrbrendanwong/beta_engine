@@ -84,10 +84,10 @@ public class Client implements ActionListener {
         countdown.setFont(FONT_STYLE);
         statusPanel.add(countdown, BorderLayout.SOUTH);
 
-        // Set main panel
+        // Set main panel layout
         mainPanel.setLayout(new OverlayLayout(mainPanel));
 
-        // Set interaction panel
+        // Set interaction panel layout
         GridLayout buttonLayout = new GridLayout(2, 2);
         interactionPanel.setLayout(buttonLayout);
 
@@ -150,7 +150,6 @@ public class Client implements ActionListener {
         if (currScene.bgmFile != null) playAudio(currScene.bgmFile, true);
         if (currScene.soundFile != null) playAudio(currScene.soundFile, false);
 
-
         // Add text and choiceButtons and stuff
         updateFrame("", -1);
         updateStats();
@@ -183,6 +182,8 @@ public class Client implements ActionListener {
                 nextScene = sceneName;
             }
 
+            // check list of story, death and end scenes for the next scene and
+            // set the current scene to it
             if (game.storyScenes.containsKey(nextScene)) {
                 currScene = game.storyScenes.get(nextScene);
             } else if (game.deathScenes.containsKey(nextScene)) {
@@ -207,6 +208,8 @@ public class Client implements ActionListener {
         }
     }
 
+    // Redraw mainPanel depending on the pictures and positions of the current scene
+    // Called when a choice is made and the frame is updated
     private void updatePictures() {
         mainPanel.removeAll();
         if (!currScene.pictures.isEmpty()) {
@@ -223,6 +226,7 @@ public class Client implements ActionListener {
         mainPanel.repaint();
     }
 
+    // Returns a BorderLayout enum based on the position from the parsed picture object
     private String evaluateIconPosition(String position) {
         switch (position) {
             case "center":
@@ -241,6 +245,8 @@ public class Client implements ActionListener {
         }
     }
 
+    // When there is more text and the user has clicked next, then this function is called
+    // Updates interactionPanel with new line of text
     private void updateText() {
         interactionPanel.removeAll();
         textPanel.removeAll();
@@ -273,6 +279,10 @@ public class Client implements ActionListener {
         statsLabel.setText(text.substring(0, text.length()-2));
     }
 
+    // If there is no more text, this function is called
+    // It updates the interactionPanel, replacing the text that was there
+    // with the buttons for choices instead
+    // The choices shown are based on the stats and the evaluation of the conditionals
     private void updateButtons() {
         interactionPanel.removeAll();
         // TODO: if there are no more buttons, then quit the application
