@@ -267,7 +267,7 @@ public class Client implements ActionListener {
             text += " " + stat + ": " + Game.numberStats.get(stat) + " |";
         }
         for (String stat : Game.stringStats.keySet()) {
-            text += " " + stat + ": " + Game.numberStats.get(stat) + " |";
+            text += " " + stat + ": " + Game.stringStats.get(stat) + " |";
         }
 
         statsLabel.setText(text.substring(0, text.length()-2));
