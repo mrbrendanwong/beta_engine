@@ -103,7 +103,7 @@ END SCENES:
 ```
 
 ## Troubleshooting
-* Make sure your text, file names, conditionals, and stat changes are surround by quotes
+* Make sure your text, file names, conditionals, and stat changes are surrounded by quotes
 * Ensure that your file paths are correct
 * Only 4 choices will appear for each scene, even if you make more
 * Follow the syntax to a T

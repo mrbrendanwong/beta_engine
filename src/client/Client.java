@@ -320,11 +320,12 @@ public class Client implements ActionListener {
                 String timeoutScene = currScene.timer.getNextScene();
                 count = 0;
 
-                timer = new Timer(1000, new ActionListener() {
+                timer = new Timer(500, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        if (count < limit) {
-                            countdown.setText("Timer: " + Integer.toString(limit - count));
+                        if (count/2 < limit) {
+                            countdown.setForeground(count % 2 == 0 ? Color.RED : Color.WHITE);
+                            countdown.setText("Timer: " + Integer.toString(limit - count/2));
                         } else {
                             ((Timer) (e.getSource())).stop();
                             countdown.setText("");

@@ -3,6 +3,7 @@ package components;
 import lib.Node;
 import ui.Main;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,10 +46,12 @@ public class Scene extends Node {
                 case "bgm":
                     tokenizer.getAndCheckNext("bgm");
                     bgmFile = tokenizer.getNext();
+                    checkFile(bgmFile);
                     break;
                 case "sound effect":
                     tokenizer.getAndCheckNext("sound effect");
                     soundFile = tokenizer.getNext();
+                    checkFile(soundFile);
                     break;
                 case "picture":
                     tokenizer.getAndCheckNext("picture");
@@ -62,17 +65,12 @@ public class Scene extends Node {
         }
     }
 
-    // For testing
-    @Override
-    public String toString() {
-        return "Scene{" +
-                "name='" + name + '\'' +
-                ", texts=" + texts +
-                ", choices=" + choices +
-                ", timer=" + timer +
-                ", bgmFile='" + bgmFile + '\'' +
-                ", soundFile='" + soundFile + '\'' +
-                ", pictures='" + pictures + '\'' +
-                '}';
+    private void checkFile(String filepath) {
+        File file = new File(filepath);
+        if (!file.exists()) {
+            System.out.println("\"" + filepath + "\" doesn't exist");
+            System.exit(1);
+        }
     }
+
 }
