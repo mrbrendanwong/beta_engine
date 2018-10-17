@@ -24,6 +24,7 @@ public class Client implements ActionListener {
     private Game game;
     private Scene currScene;
     private int currTextPointer;
+    // maps Jbutton index to choice index of the scene
     private int[] buttonToChoiceIndex = new int[NUM_BUTTONS];
 
     private JFrame frame;
@@ -170,6 +171,7 @@ public class Client implements ActionListener {
             // reset text pointer
             currTextPointer = 0;
 
+            // When not a timer redirect
             if (sceneName.isEmpty()) {
                 // set new stat
                 // stats tied to choices, timeouts can't set stat
@@ -279,6 +281,10 @@ public class Client implements ActionListener {
         if (currScene.choices.size() == 0) {
             System.exit(0);
         }
+
+        // evaluate which choices should appear on the screen
+        // put choices in buttons if the choice conditional is met
+        // map out the button index to the scene's choice index
         int buttonIndex = 0;
         for (int i = 0; i < currScene.choices.size(); i++) {
             Choice c = currScene.choices.get(i);

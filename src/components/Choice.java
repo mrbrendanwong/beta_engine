@@ -51,10 +51,15 @@ public class Choice extends Node {
         }
     }
 
+    // check the conditional to see if it is valid to parse
+    // valid when the comparison operator is valid as defined by DSL
+    // Numbers: == >= <= > <
+    // Strings: ==
     private void checkConditional() {
         String[] statArr = splitStat(conditionalString);
         String stat = statArr[0];
         String op = statArr[1];
+        // check symbol table for conditional value
         Integer numStat = Game.numberStats.get(stat);
         String stringStat = Game.stringStats.get(stat);
 
@@ -67,12 +72,18 @@ public class Choice extends Node {
         }
     }
 
+    // check the stat to see if it is valid to parse
+    // valid when the assignment operator is valid as defined by DSL
+    // Numbers: + - * /
+    // Strings: =
     private void checkSetStat() {
         String[] statArr = splitStat(statString);
         String stat = statArr[0];
         String op = statArr[1];
+        // check symbol table for stat value
         Integer numStat = Game.numberStats.get(stat);
         String stringStat = Game.stringStats.get(stat);
+
         if ((numStat != null && op.matches("\\+|-|\\*|/|=")) ||
                 (stringStat != null && op.matches("="))) {
             System.out.println("Change Stat valid: " + statString);
@@ -82,6 +93,7 @@ public class Choice extends Node {
         }
     }
 
+    // Split a parsed conditional/stat string into the form <stat name> <operation> <value>
     private String[] splitStat(String statInput) {
         String[] statString = statInput.split(" ");
         if (statString.length < 3) {
@@ -95,6 +107,9 @@ public class Choice extends Node {
         return new String[]{statName, op, right};
     }
 
+    // Called when arriving at a new scene
+    // Evaluates the conditional to see if the choice should appear
+    // op is assumed valid (from previous parsing)
     public boolean evalConditional() {
         String[] statArr = splitStat(conditionalString);
         String stat = statArr[0];
@@ -116,6 +131,7 @@ public class Choice extends Node {
         return false;
     }
 
+    // Evaluates a comparison for numbers
     private boolean evalNumStat(int left, String op, String right) {
         int comp = 0;
         try {
@@ -142,6 +158,9 @@ public class Choice extends Node {
         return false;
     }
 
+    // Called when the player selects this choice in the current scene
+    // Updates the stat based on the string parsed
+    // op is assumed to be valid from previous parsing
     public void setStat() {
         String[] statArr = splitStat(statString);
         String stat = statArr[0];
@@ -164,6 +183,7 @@ public class Choice extends Node {
         }
     }
 
+    // Updates the stat based on the arithmetic operation of the parsed string
     private void setNumStat(String name, int left, String op, String right) {
         int comp = 0;
         try {
